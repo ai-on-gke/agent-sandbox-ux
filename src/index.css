@@ -1,0 +1,130 @@
+/* Copyright 2026 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import "tailwindcss";
+
+@theme {
+  --color-theme-bg: var(--bg-primary);
+  --color-theme-card: var(--bg-card);
+  --color-theme-border: var(--border-color);
+  --color-theme-text: var(--text-primary);
+  --color-theme-muted: var(--text-muted);
+  
+  --color-obsidian-night: #0D1117;
+  --color-deep-charcoal: #161B22;
+  --color-cyber-cyan: #00F5FF;
+  --color-electric-violet: #BD00FF;
+  --color-cloud-dancer: #F0F6FC;
+  
+  --color-status-healthy: #10B981;
+  --color-status-warning: #F59E0B;
+  --color-status-critical: #EF4444;
+  --color-status-offline: #6B7280;
+  
+  --color-sandbox-bg: #020408;
+  --color-sandbox-surface: #0c111a;
+  --color-sandbox-green: #2ED168;
+  --color-sandbox-cyan: #00F5FF;
+  --color-sandbox-violet: #9D5FF2;
+  --color-sandbox-orange: #F2994A;
+  --color-sandbox-text: #F0F6FC;
+  --color-sandbox-muted: #6a737d;
+  
+  --font-sans: 'Roboto', Arial, Helvetica, sans-serif;
+  --font-display: 'Google Sans', Arial, Helvetica, sans-serif;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --brand-accent: #059669;
+    --brand-accent-hover: #047857;
+    --brand-accent-bg: rgba(16, 185, 129, 0.1);
+    
+    --chart-grid: #cbd5e1;
+    --chart-axis: #475569;
+  }
+
+  .dark {
+    --bg-primary: #020617;
+    --bg-secondary: #0f172a;
+    --bg-card: #090d16;
+    --border-color: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --brand-accent: #34d399;
+    --brand-accent-hover: #10b981;
+    --brand-accent-bg: rgba(52, 211, 153, 0.15);
+    
+    --chart-grid: #1e293b;
+    --chart-axis: #64748b;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+
+  button, a, select, [role="button"] {
+    cursor: pointer !important;
+  }
+  
+  .recharts-dot, 
+  .recharts-active-dot,
+  .recharts-symbols,
+  .recharts-layer,
+  .recharts-scatter-symbol {
+    cursor: pointer !important;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.bg-mesh-pattern {
+  background-color: #020407;
+  background-image: 
+    radial-gradient(at 0% 10%, rgba(0, 229, 255, 0.18) 0%, transparent 60%),
+    radial-gradient(at 90% 5%, rgba(157, 95, 242, 0.18) 0%, transparent 65%),
+    radial-gradient(at 100% 65%, rgba(242, 153, 74, 0.15) 0%, transparent 55%),
+    radial-gradient(at 15% 90%, rgba(37, 99, 235, 0.18) 0%, transparent 65%);
+  background-size: cover;
+  background-position: center;
+}

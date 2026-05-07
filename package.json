@@ -1,0 +1,46 @@
+{
+  "name": "agent-sandbox-ux",
+  "private": true,
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"node server/server.js\" \"vite --host\"",
+    "build": "vite build",
+    "start": "node server/server.js",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "update-metrics": "python3 tools/update_arena_scores.py",
+    "artifactregistry-login": "npm_config_registry=https://registry.npmjs.org npx google-artifactregistry-auth",
+    "zipline": "rm -f zipline-upload.zip && npm run build && zip -r zipline-upload.zip dist/*"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.17",
+    "clsx": "^2.1.1",
+    "compression": "^1.7.4",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "google-auth-library": "^9.4.1",
+    "js-yaml": "^4.1.1",
+    "lucide-react": "^0.554.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "recharts": "^3.4.1",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.22",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "vite": "^7.2.4"
+  }
+}

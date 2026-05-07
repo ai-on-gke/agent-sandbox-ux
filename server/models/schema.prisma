@@ -1,0 +1,73 @@
+// Copyright 2026 Google LLC
+// Prisma Schema model mapping GKE Sandbox isolation fleet contexts relations
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+/// Core architectural model template definition mapping CRDs specs variables settings
+model SandboxTemplate {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  status         String   @default("Active") // "Active" | "Degraded" | "Pending" | "Inactive"
+  projectId      String   // Target GKE Project ID scoping allocations
+  cluster        String   // Name of the GKE cluster node hosting warm pools
+  namespace      String   // Kubernetes namespace scope link
+  warmPoolSize   Int      @default(20)
+  isolation      String   @default("gVisor (runsc)")
+  egressRules    Int      @default(0)
+  yamlContent    String   @db.Text // Raw custom resource definition manifest spec blocks
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relationships definitions linking template models to real-time allocations objects
+  claims         Claim[]
+  popularityLogs PopularityMetric[]
+}
+
+/// Ephemeral allocation resource link claim indicating a live isolated sandbox sandbox container container
+model Claim {
+  id           String          @id @default(uuid())
+  status       String          @default("Running") // "Running" | "Ready" | "Terminated"
+  cluster      String
+  namespace    String
+  clickedAt    DateTime        @default(now())
+  expiresAt    DateTime
+
+  // Foreign Key binding object link to the parent SandboxTemplate config model
+  templateId   String
+  template     SandboxTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@index([templateId])
+  @@index([status])
+}
+
+/// Global summary metrics aggregates logger reporting fleet capacity tracking numbers
+model UsageMetric {
+  id                   String   @id @default(uuid())
+  totalTemplates       Int
+  totalActiveSandboxes Int
+  timestamp            DateTime @default(now())
+
+  // Historical popularity tracking collection links
+  popularityLogs       PopularityMetric[]
+}
+
+/// Join structural popularity item mapping allocations snapshots count of sandboxes using specific templates models
+model PopularityMetric {
+  id             String          @id @default(uuid())
+  sandboxesCount Int             @default(0)
+  
+  templateId     String
+  template       SandboxTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  
+  metricId       String
+  usageMetric    UsageMetric     @relation(fields: [metricId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, metricId])
+}

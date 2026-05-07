@@ -1,0 +1,2648 @@
+[
+  {
+    "id": "0d07154f-df8d-4abb-9094-a61c508e2623",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_1000_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/1000"
+    },
+    "workload": {
+      "input_tokens": 3209.2194444444444,
+      "output_tokens": 851.7266666666667,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6086.6426581357955,
+      "output_tput": 6086.6426581357955,
+      "input_tput": 22933.85041743566,
+      "request_rate": 7.146239393861641,
+      "tpot": 192.64717267172077,
+      "time_per_output_token": 192.64717267172077,
+      "latency": {
+        "mean": 27252.09005484445,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_1000_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:08.450Z",
+    "_fileSizeKb": "300666.8"
+  },
+  {
+    "id": "fcf47451-abe1-4a03-9797-14b30f887b64",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_1000_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/100"
+    },
+    "workload": {
+      "input_tokens": 3212.079166666667,
+      "output_tokens": 85.22638888888889,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 830.4813955244178,
+      "output_tput": 830.4813955244178,
+      "input_tput": 31299.835926945143,
+      "request_rate": 9.744416094023775,
+      "tpot": 38.93713694292709,
+      "time_per_output_token": 38.93713694292709,
+      "latency": {
+        "mean": 966.276850193713,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_1000_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:11.131Z",
+    "_fileSizeKb": "130920.3"
+  },
+  {
+    "id": "6f7214d5-3ad8-476d-901a-4fe48e93a56d",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_1000_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/300"
+    },
+    "workload": {
+      "input_tokens": 3211.293888888889,
+      "output_tokens": 258.4025,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2427.6802478395643,
+      "output_tput": 2427.6802478395643,
+      "input_tput": 30169.96640536936,
+      "request_rate": 9.394956503282918,
+      "tpot": 50.91560081109924,
+      "time_per_output_token": 50.91560081109924,
+      "latency": {
+        "mean": 2947.736242719564,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_1000_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:14.506Z",
+    "_fileSizeKb": "168088.2"
+  },
+  {
+    "id": "b224f915-e916-4de1-86b1-53d728b40514",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_100_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/1000"
+    },
+    "workload": {
+      "input_tokens": 2262.784166666667,
+      "output_tokens": 847.8361111111111,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6514.741075461732,
+      "output_tput": 6514.741075461732,
+      "input_tput": 17387.149193455236,
+      "request_rate": 7.683962725914087,
+      "tpot": 124.79284178930328,
+      "time_per_output_token": 124.79284178930328,
+      "latency": {
+        "mean": 18901.36009739955,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_100_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:20.480Z",
+    "_fileSizeKb": "267751.3"
+  },
+  {
+    "id": "a0ead667-5f2a-4693-b300-1f975e2517c0",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_100_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/100"
+    },
+    "workload": {
+      "input_tokens": 2262.481388888889,
+      "output_tokens": 84.74083333333333,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 827.7401826109219,
+      "output_tput": 827.7401826109219,
+      "input_tput": 22099.697210034923,
+      "request_rate": 9.767902321127224,
+      "tpot": 39.23788819613901,
+      "time_per_output_token": 39.23788819613901,
+      "latency": {
+        "mean": 944.4509447170681,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_100_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:22.759Z",
+    "_fileSizeKb": "97948.8"
+  },
+  {
+    "id": "71430a91-f0d6-4325-afb7-c4f0e8dab160",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_100_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/300"
+    },
+    "workload": {
+      "input_tokens": 2256.561388888889,
+      "output_tokens": 252.75944444444445,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2375.9066568709945,
+      "output_tput": 2375.9066568709945,
+      "input_tput": 21211.39028962211,
+      "request_rate": 9.399872919063998,
+      "tpot": 54.044955277300126,
+      "time_per_output_token": 54.044955277300126,
+      "latency": {
+        "mean": 2936.956740767928,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_100_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:25.172Z",
+    "_fileSizeKb": "135357.8"
+  },
+  {
+    "id": "59773f92-02b8-413d-8c48-d8451fe670b6",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_300_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/1000"
+    },
+    "workload": {
+      "input_tokens": 2469.225,
+      "output_tokens": 851.4283333333333,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6523.049261712294,
+      "output_tput": 6523.049261712294,
+      "input_tput": 18917.47747011575,
+      "request_rate": 7.661301610876187,
+      "tpot": 154.62008298491813,
+      "time_per_output_token": 154.62008298491813,
+      "latency": {
+        "mean": 20457.18000065916,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_300_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:29.983Z",
+    "_fileSizeKb": "275262.8"
+  },
+  {
+    "id": "4c2ba376-1159-4368-9a69-d73607cb7869",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_300_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/100"
+    },
+    "workload": {
+      "input_tokens": 2473.282777777778,
+      "output_tokens": 85.34027777777777,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 834.2168276205618,
+      "output_tput": 834.2168276205618,
+      "input_tput": 24176.791620704225,
+      "request_rate": 9.775182942254121,
+      "tpot": 37.15462468493945,
+      "time_per_output_token": 37.15462468493945,
+      "latency": {
+        "mean": 939.0593353529564,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_300_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:31.890Z",
+    "_fileSizeKb": "105084.4"
+  },
+  {
+    "id": "527d4b6d-d849-4964-9923-a30e872630d3",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-kv-scorer/results/inference-perf_1758823773-setup_inf_sche_kv_yaml-run_300_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/300"
+    },
+    "workload": {
+      "input_tokens": 2471.2219444444445,
+      "output_tokens": 258.49805555555554,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2427.1759321691984,
+      "output_tput": 2427.1759321691984,
+      "input_tput": 23203.619128635317,
+      "request_rate": 9.389532648331885,
+      "tpot": 47.752987006906814,
+      "time_per_output_token": 47.752987006906814,
+      "latency": {
+        "mean": 2915.1314982686504,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758823773-setup_inf_sche_kv_yaml-run_300_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:34.588Z",
+    "_fileSizeKb": "142640.9"
+  },
+  {
+    "id": "3c0db64f-0017-449a-ac93-81ad68527ced",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_1000_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/1000"
+    },
+    "workload": {
+      "input_tokens": 3208.6575,
+      "output_tokens": 864.55,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6097.694786475088,
+      "output_tput": 6097.694786475088,
+      "input_tput": 22630.74907100132,
+      "request_rate": 7.053027339627653,
+      "tpot": 209.38283679880047,
+      "time_per_output_token": 209.38283679880047,
+      "latency": {
+        "mean": 27486.688657321796,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_1000_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:41.481Z",
+    "_fileSizeKb": "300601.2"
+  },
+  {
+    "id": "b87affd0-6ae0-4e13-9825-897a2f144329",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_1000_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/100"
+    },
+    "workload": {
+      "input_tokens": 3206.9608333333335,
+      "output_tokens": 85.40583333333333,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 834.5087714301613,
+      "output_tput": 834.5087714301613,
+      "input_tput": 31335.528740811766,
+      "request_rate": 9.771098048690991,
+      "tpot": 40.257465050153144,
+      "time_per_output_token": 40.257465050153144,
+      "latency": {
+        "mean": 957.3763035901356,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_1000_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:43.790Z",
+    "_fileSizeKb": "130579.7"
+  },
+  {
+    "id": "64057b87-2021-4e35-8ede-195bccf5046b",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_1000_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/300"
+    },
+    "workload": {
+      "input_tokens": 3208.3502777777776,
+      "output_tokens": 254.31027777777777,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2388.8420727076577,
+      "output_tput": 2388.8420727076577,
+      "input_tput": 30137.36682021184,
+      "request_rate": 9.39341537267748,
+      "tpot": 51.3604654471198,
+      "time_per_output_token": 51.3604654471198,
+      "latency": {
+        "mean": 2952.9335989994515,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_1000_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:47.251Z",
+    "_fileSizeKb": "167899.4"
+  },
+  {
+    "id": "477b5eae-489a-470a-9ef3-2edd42aa8b0b",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_100_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/1000"
+    },
+    "workload": {
+      "input_tokens": 2263.6016666666665,
+      "output_tokens": 859.0052777777778,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6707.026283882669,
+      "output_tput": 6707.026283882669,
+      "input_tput": 17673.972753519563,
+      "request_rate": 7.807898807366533,
+      "tpot": 126.31344441629766,
+      "time_per_output_token": 126.31344441629766,
+      "latency": {
+        "mean": 18332.499989788674,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_100_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:53.013Z",
+    "_fileSizeKb": "268187.9"
+  },
+  {
+    "id": "dde25fd2-1553-4b87-b34d-81e4f45c1e76",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_100_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/100"
+    },
+    "workload": {
+      "input_tokens": 2264.9344444444446,
+      "output_tokens": 84.32166666666667,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 822.4818329885602,
+      "output_tput": 822.4818329885602,
+      "input_tput": 22092.393415677183,
+      "request_rate": 9.754098388969544,
+      "tpot": 40.22256420232051,
+      "time_per_output_token": 40.22256420232051,
+      "latency": {
+        "mean": 938.5902556716205,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_100_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:54.574Z",
+    "_fileSizeKb": "97800.6"
+  },
+  {
+    "id": "80cf79bf-ba1f-48ac-aa80-0981ca46ba12",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_100_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/300"
+    },
+    "workload": {
+      "input_tokens": 2265.4508333333333,
+      "output_tokens": 261.6352777777778,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2461.6460949377743,
+      "output_tput": 2461.6460949377743,
+      "input_tput": 21314.93216249369,
+      "request_rate": 9.408693337710348,
+      "tpot": 48.39081201103528,
+      "time_per_output_token": 48.39081201103528,
+      "latency": {
+        "mean": 2921.2802623891425,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_100_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:40:57.146Z",
+    "_fileSizeKb": "135699.9"
+  },
+  {
+    "id": "a6033068-2f2e-4b3f-927f-594ca9f35b43",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_300_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/1000"
+    },
+    "workload": {
+      "input_tokens": 2469.1483333333335,
+      "output_tokens": 835.0063888888889,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6415.153788038953,
+      "output_tput": 6415.153788038953,
+      "input_tput": 18969.874356160362,
+      "request_rate": 7.682760124237317,
+      "tpot": 142.66085324617555,
+      "time_per_output_token": 142.66085324617555,
+      "latency": {
+        "mean": 20279.64596980743,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_300_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:05.528Z",
+    "_fileSizeKb": "275385.0"
+  },
+  {
+    "id": "cdbc43de-2966-4f11-b5bd-5617b3f8a9b6",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_300_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/100"
+    },
+    "workload": {
+      "input_tokens": 2470.7619444444445,
+      "output_tokens": 85.50694444444444,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 834.9959753387401,
+      "output_tput": 834.9959753387401,
+      "input_tput": 24127.587449597762,
+      "request_rate": 9.765241651001265,
+      "tpot": 38.15404190361934,
+      "time_per_output_token": 38.15404190361934,
+      "latency": {
+        "mean": 947.6299571974151,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_300_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:07.635Z",
+    "_fileSizeKb": "105183.2"
+  },
+  {
+    "id": "e1b06f1a-8a6b-48aa-ac82-652160433986",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-no-scorer/results/inference-perf_1758763654-setup_inf_sche_none_yaml-run_300_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/300"
+    },
+    "workload": {
+      "input_tokens": 2476.963888888889,
+      "output_tokens": 256.70472222222224,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2412.1626504035,
+      "output_tput": 2412.1626504035,
+      "input_tput": 23275.14557369041,
+      "request_rate": 9.396643075055536,
+      "tpot": 52.54051276510832,
+      "time_per_output_token": 52.54051276510832,
+      "latency": {
+        "mean": 2927.7495904114203,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758763654-setup_inf_sche_none_yaml-run_300_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:10.200Z",
+    "_fileSizeKb": "142944.3"
+  },
+  {
+    "id": "de8290d1-34d4-46a0-a021-141eb68e179a",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_1000_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/1000"
+    },
+    "workload": {
+      "input_tokens": 3207.7144444444443,
+      "output_tokens": 863.8491666666666,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 4089.449480359483,
+      "output_tput": 4089.449480359483,
+      "input_tput": 15185.27385815804,
+      "request_rate": 4.733985559237656,
+      "tpot": 468.2761942210211,
+      "time_per_output_token": 468.2761942210211,
+      "latency": {
+        "mean": 63257.17729136639,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_1000_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:18.834Z",
+    "_fileSizeKb": "300719.2"
+  },
+  {
+    "id": "852dfd04-99c1-4e5a-aaf6-906560a8031d",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_1000_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/100"
+    },
+    "workload": {
+      "input_tokens": 3213.138611111111,
+      "output_tokens": 86.33277777777778,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 844.2837062354089,
+      "output_tput": 844.2837062354089,
+      "input_tput": 31422.602690020973,
+      "request_rate": 9.779410879244628,
+      "tpot": 37.696238862611935,
+      "time_per_output_token": 37.696238862611935,
+      "latency": {
+        "mean": 987.935472798094,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_1000_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:22.999Z",
+    "_fileSizeKb": "130290.3"
+  },
+  {
+    "id": "724f374c-56e7-41a8-81e7-ad375b8cd291",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_1000_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/300"
+    },
+    "workload": {
+      "input_tokens": 3210.2405555555556,
+      "output_tokens": 262.57055555555553,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2428.986008797443,
+      "output_tput": 2428.986008797443,
+      "input_tput": 29697.272711405476,
+      "request_rate": 9.25079357682781,
+      "tpot": 84.17343140271011,
+      "time_per_output_token": 84.17343140271011,
+      "latency": {
+        "mean": 5553.905370881806,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_1000_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:28.893Z",
+    "_fileSizeKb": "168628.4"
+  },
+  {
+    "id": "9d2fad45-5762-4ee7-90d3-97e4ed3145d5",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_100_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/1000"
+    },
+    "workload": {
+      "input_tokens": 2259.1472222222224,
+      "output_tokens": 864.3041666666667,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 5006.961743777425,
+      "output_tput": 5006.961743777425,
+      "input_tput": 13087.36455460148,
+      "request_rate": 5.79305519616735,
+      "tpot": 369.4664039006913,
+      "time_per_output_token": 369.4664039006913,
+      "latency": {
+        "mean": 51203.03077865492,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_100_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:39.360Z",
+    "_fileSizeKb": "267858.0"
+  },
+  {
+    "id": "2ae6a67c-feda-4595-895e-43b35fd30fed",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_100_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/100"
+    },
+    "workload": {
+      "input_tokens": 2258.886111111111,
+      "output_tokens": 85.095,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 830.2446159942081,
+      "output_tput": 830.2446159942081,
+      "input_tput": 22039.227121383094,
+      "request_rate": 9.756679193774112,
+      "tpot": 38.84093933232744,
+      "time_per_output_token": 38.84093933232744,
+      "latency": {
+        "mean": 956.02100530497,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_100_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:43.428Z",
+    "_fileSizeKb": "97994.2"
+  },
+  {
+    "id": "61b074b9-1464-443c-8518-79f065ae5d2b",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_100_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/300"
+    },
+    "workload": {
+      "input_tokens": 2261.8586111111113,
+      "output_tokens": 263.0913888888889,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2468.9475380837575,
+      "output_tput": 2468.9475380837575,
+      "input_tput": 21226.123260745655,
+      "request_rate": 9.384372284136086,
+      "tpot": 49.64608378233388,
+      "time_per_output_token": 49.64608378233388,
+      "latency": {
+        "mean": 3234.194484244023,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_100_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:47.554Z",
+    "_fileSizeKb": "135514.7"
+  },
+  {
+    "id": "aa29bb35-2ef1-414c-b993-555bb3af6da0",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_300_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/1000"
+    },
+    "workload": {
+      "input_tokens": 2468.2166666666667,
+      "output_tokens": 839.34,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 4661.447457970196,
+      "output_tput": 4661.447457970196,
+      "input_tput": 13707.749310831136,
+      "request_rate": 5.553705837884762,
+      "tpot": 408.8379301374219,
+      "time_per_output_token": 408.8379301374219,
+      "latency": {
+        "mean": 53655.60569336924,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_300_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:55.767Z",
+    "_fileSizeKb": "274921.7"
+  },
+  {
+    "id": "637de742-87e7-4537-b5cc-b940beff06c8",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_300_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/100"
+    },
+    "workload": {
+      "input_tokens": 2466.3694444444445,
+      "output_tokens": 83.79444444444445,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 816.9356157670813,
+      "output_tput": 816.9356157670813,
+      "input_tput": 24045.32966552679,
+      "request_rate": 9.749281365648388,
+      "tpot": 41.04988847838923,
+      "time_per_output_token": 41.04988847838923,
+      "latency": {
+        "mean": 966.7462415645261,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_300_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:41:58.988Z",
+    "_fileSizeKb": "104667.9"
+  },
+  {
+    "id": "e5aff74f-b516-48c2-b104-4d865c3f906a",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-prefix-scorer/results/inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_300_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/300"
+    },
+    "workload": {
+      "input_tokens": 2471.2838888888887,
+      "output_tokens": 250.7422222222222,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2354.709270787996,
+      "output_tput": 2354.709270787996,
+      "input_tput": 23207.719196005244,
+      "request_rate": 9.39095637710795,
+      "tpot": 67.91157512405,
+      "time_per_output_token": 67.91157512405,
+      "latency": {
+        "mean": 3585.3581264525806,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758768723-setup_inf_sche_prefix_yaml-run_300_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:08.664Z",
+    "_fileSizeKb": "142827.5"
+  },
+  {
+    "id": "02c8f038-1cad-4ee8-a72e-724affa923f4",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_1000_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/1000"
+    },
+    "workload": {
+      "input_tokens": 3211.6194444444445,
+      "output_tokens": 860.6694444444445,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6131.06177725188,
+      "output_tput": 6131.06177725188,
+      "input_tput": 22878.280791788082,
+      "request_rate": 7.123596424652247,
+      "tpot": 269.30801054539853,
+      "time_per_output_token": 269.30801054539853,
+      "latency": {
+        "mean": 27554.500043875425,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_1000_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:21.259Z",
+    "_fileSizeKb": "300636.2"
+  },
+  {
+    "id": "d06e4e4a-43c9-4775-93f3-8a2b49b2eff4",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_1000_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/100"
+    },
+    "workload": {
+      "input_tokens": 3209.721666666667,
+      "output_tokens": 86.26416666666667,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 842.3897906122704,
+      "output_tput": 842.3897906122704,
+      "input_tput": 31343.68379346775,
+      "request_rate": 9.765234200515128,
+      "tpot": 38.17949823888998,
+      "time_per_output_token": 38.17949823888998,
+      "latency": {
+        "mean": 965.4840563791287,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_1000_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:26.437Z",
+    "_fileSizeKb": "130349.3"
+  },
+  {
+    "id": "abeef00e-ec2b-40f0-8659-07dafc4fb515",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_1000_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/300"
+    },
+    "workload": {
+      "input_tokens": 3206.0261111111113,
+      "output_tokens": 261.74333333333334,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2458.327313573827,
+      "output_tput": 2458.327313573827,
+      "input_tput": 30111.412797430006,
+      "request_rate": 9.3921296189925,
+      "tpot": 46.0951315252168,
+      "time_per_output_token": 46.0951315252168,
+      "latency": {
+        "mean": 2996.379113562224,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_1000_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:32.403Z",
+    "_fileSizeKb": "167973.3"
+  },
+  {
+    "id": "fc7b6589-1c03-439e-ab57-caba480a1942",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_100_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/1000"
+    },
+    "workload": {
+      "input_tokens": 2259.753888888889,
+      "output_tokens": 851.8138888888889,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6644.99580952241,
+      "output_tput": 6644.99580952241,
+      "input_tput": 17628.328579856414,
+      "request_rate": 7.800994907690671,
+      "tpot": 139.12235315025399,
+      "time_per_output_token": 139.12235315025399,
+      "latency": {
+        "mean": 18240.59538083397,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_100_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:43.242Z",
+    "_fileSizeKb": "268119.0"
+  },
+  {
+    "id": "9f67d270-b92d-4939-9430-8616dbaae49a",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_100_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/100"
+    },
+    "workload": {
+      "input_tokens": 2261.9219444444443,
+      "output_tokens": 85.38583333333334,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 832.1263170974311,
+      "output_tput": 832.1263170974311,
+      "input_tput": 22043.52529821398,
+      "request_rate": 9.74548452140692,
+      "tpot": 37.26498148268129,
+      "time_per_output_token": 37.26498148268129,
+      "latency": {
+        "mean": 948.0477797117136,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_100_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:46.053Z",
+    "_fileSizeKb": "98130.1"
+  },
+  {
+    "id": "8eb1e200-86e3-4f28-8109-fdae105a64a5",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_100_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/300"
+    },
+    "workload": {
+      "input_tokens": 2262.057222222222,
+      "output_tokens": 252.32444444444445,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2371.3751963801246,
+      "output_tput": 2371.3751963801246,
+      "input_tput": 21259.083325759035,
+      "request_rate": 9.398119162022933,
+      "tpot": 55.01815441396618,
+      "time_per_output_token": 55.01815441396618,
+      "latency": {
+        "mean": 2940.8610017047936,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_100_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:50.525Z",
+    "_fileSizeKb": "135708.9"
+  },
+  {
+    "id": "74ce9a3c-b79d-4f86-b88e-006aed92b3b9",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_300_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/1000"
+    },
+    "workload": {
+      "input_tokens": 2468.935,
+      "output_tokens": 898.54,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6829.979412076289,
+      "output_tput": 6829.979412076289,
+      "input_tput": 18766.860929679897,
+      "request_rate": 7.601196843853684,
+      "tpot": 109.17981686583197,
+      "time_per_output_token": 109.17981686583197,
+      "latency": {
+        "mean": 20814.547293144995,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_300_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:42:59.501Z",
+    "_fileSizeKb": "275045.7"
+  },
+  {
+    "id": "fe9d3f32-9166-4aac-a3c6-6f77b30cb666",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_300_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/100"
+    },
+    "workload": {
+      "input_tokens": 2472.771388888889,
+      "output_tokens": 84.56527777777778,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 824.447499404086,
+      "output_tput": 824.447499404086,
+      "input_tput": 24107.650820052513,
+      "request_rate": 9.749243673870316,
+      "tpot": 40.46446521074897,
+      "time_per_output_token": 40.46446521074897,
+      "latency": {
+        "mean": 956.9694661852232,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_300_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:03.108Z",
+    "_fileSizeKb": "105182.0"
+  },
+  {
+    "id": "b552e0fe-ea5b-450f-aac8-5551e177119e",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling/inference-scheduling-queue-scorer/results/inference-perf_1758845955-setup_inf_sche_queue_yaml-run_300_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/300"
+    },
+    "workload": {
+      "input_tokens": 2472.206111111111,
+      "output_tokens": 258.53777777777776,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2428.6700342061235,
+      "output_tput": 2428.6700342061235,
+      "input_tput": 23223.580522911456,
+      "request_rate": 9.393869070436779,
+      "tpot": 49.439482025455106,
+      "time_per_output_token": 49.439482025455106,
+      "latency": {
+        "mean": 2964.8439491410845,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1758845955-setup_inf_sche_queue_yaml-run_300_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:08.480Z",
+    "_fileSizeKb": "142695.9"
+  },
+  {
+    "id": "cfcec917-600c-4063-8436-7492463d2b93",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_1000_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/1000"
+    },
+    "workload": {
+      "input_tokens": 3032.385277777778,
+      "output_tokens": 779.0588888888889,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 5838.449459887048,
+      "output_tput": 5838.449459887048,
+      "input_tput": 22725.404253408306,
+      "request_rate": 7.494233803318738,
+      "tpot": 182.912244516945,
+      "time_per_output_token": 182.912244516945,
+      "latency": {
+        "mean": 21417.85868275765,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_1000_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:19.052Z",
+    "_fileSizeKb": "290067.7"
+  },
+  {
+    "id": "1020bfb6-5703-42a3-8455-16c2c169fc60",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_1000_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/100"
+    },
+    "workload": {
+      "input_tokens": 3206.63,
+      "output_tokens": 87.31527777777778,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 851.1583811131958,
+      "output_tput": 851.1583811131958,
+      "input_tput": 31258.561721298694,
+      "request_rate": 9.748103685582276,
+      "tpot": 33.93415485225172,
+      "time_per_output_token": 33.93415485225172,
+      "latency": {
+        "mean": 953.1544874464938,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_1000_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:23.433Z",
+    "_fileSizeKb": "130213.8"
+  },
+  {
+    "id": "230a8771-c78c-437e-ab27-93a6554c71cb",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_1000_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/300"
+    },
+    "workload": {
+      "input_tokens": 3207.9055555555556,
+      "output_tokens": 256.21222222222224,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2412.2669925076866,
+      "output_tput": 2412.2669925076866,
+      "input_tput": 30202.792902037934,
+      "request_rate": 9.415112876291433,
+      "tpot": 49.24337383642338,
+      "time_per_output_token": 49.24337383642338,
+      "latency": {
+        "mean": 2940.492296847127,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_1000_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:30.145Z",
+    "_fileSizeKb": "168339.6"
+  },
+  {
+    "id": "4cf7ae2d-940f-4218-9e65-f4127c68df2e",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_100_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/1000"
+    },
+    "workload": {
+      "input_tokens": 2264.0444444444443,
+      "output_tokens": 854.2758333333334,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6741.334825934329,
+      "output_tput": 6741.334825934329,
+      "input_tput": 17866.221968661343,
+      "request_rate": 7.891285885531893,
+      "tpot": 126.77813367669803,
+      "time_per_output_token": 126.77813367669803,
+      "latency": {
+        "mean": 17412.88504451915,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_100_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:45.079Z",
+    "_fileSizeKb": "268107.9"
+  },
+  {
+    "id": "e232dbb4-4329-40f9-b22a-c10b01e1ca84",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_100_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/100"
+    },
+    "workload": {
+      "input_tokens": 2265.09,
+      "output_tokens": 87.56055555555555,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 854.5257552457672,
+      "output_tput": 854.5257552457672,
+      "input_tput": 22105.590019030275,
+      "request_rate": 9.759254607556555,
+      "tpot": 33.756681078028556,
+      "time_per_output_token": 33.756681078028556,
+      "latency": {
+        "mean": 941.9823332280955,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_100_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:48.941Z",
+    "_fileSizeKb": "98060.3"
+  },
+  {
+    "id": "dedd8072-94a2-4447-aec4-0d20397a4690",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_100_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/300"
+    },
+    "workload": {
+      "input_tokens": 2257.9444444444443,
+      "output_tokens": 261.37833333333333,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2456.0385759840747,
+      "output_tput": 2456.0385759840747,
+      "input_tput": 21216.749633613417,
+      "request_rate": 9.396488778019377,
+      "tpot": 44.957543122406385,
+      "time_per_output_token": 44.957543122406385,
+      "latency": {
+        "mean": 2914.7055165646857,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_100_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:43:53.712Z",
+    "_fileSizeKb": "135372.8"
+  },
+  {
+    "id": "2066f35a-2d5b-4d8d-96a8-30e20dc4114d",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_300_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/1000"
+    },
+    "workload": {
+      "input_tokens": 2471.4513888888887,
+      "output_tokens": 853.2319444444445,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6465.842126995193,
+      "output_tput": 6465.842126995193,
+      "input_tput": 18728.804763051212,
+      "request_rate": 7.578059130457459,
+      "tpot": 151.3184803846568,
+      "time_per_output_token": 151.3184803846568,
+      "latency": {
+        "mean": 19621.15587403989,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_300_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:03.459Z",
+    "_fileSizeKb": "275253.8"
+  },
+  {
+    "id": "427dc88e-249d-49ad-99cd-7b62309d7b73",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_300_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/100"
+    },
+    "workload": {
+      "input_tokens": 2476.4544444444446,
+      "output_tokens": 85.36861111111111,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 832.0826459892118,
+      "output_tput": 832.0826459892118,
+      "input_tput": 24137.850434547814,
+      "request_rate": 9.74693901141508,
+      "tpot": 37.29187294695057,
+      "time_per_output_token": 37.29187294695057,
+      "latency": {
+        "mean": 946.8688444174929,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_300_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:06.669Z",
+    "_fileSizeKb": "104738.0"
+  },
+  {
+    "id": "3822664a-7472-46b1-a9fc-459b964830aa",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_estimate/precise_prefix_cache_aware/results/inference-perf_1759334425-cache_estimate-run_300_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/300"
+    },
+    "workload": {
+      "input_tokens": 2474.968611111111,
+      "output_tokens": 255.56833333333333,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2400.7237286324107,
+      "output_tput": 2400.7237286324107,
+      "input_tput": 23249.03009233608,
+      "request_rate": 9.393666646098866,
+      "tpot": 53.96797651077237,
+      "time_per_output_token": 53.96797651077237,
+      "latency": {
+        "mean": 2925.525575245394,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759334425-cache_estimate-run_300_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:11.251Z",
+    "_fileSizeKb": "142827.4"
+  },
+  {
+    "id": "4b55fd60-1f3e-4a7f-af4d-65dd8e334825",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_1000_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/1000"
+    },
+    "workload": {
+      "input_tokens": 2942.7033333333334,
+      "output_tokens": 795.9019444444444,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6023.669103592025,
+      "output_tput": 6023.669103592025,
+      "input_tput": 22271.425863157398,
+      "request_rate": 7.568355807695214,
+      "tpot": 135.16781454193713,
+      "time_per_output_token": 135.16781454193713,
+      "latency": {
+        "mean": 21290.247661678102,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_1000_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:20.738Z",
+    "_fileSizeKb": "284965.9"
+  },
+  {
+    "id": "f11dc891-be6a-408d-88df-afc719f82941",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_1000_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/100"
+    },
+    "workload": {
+      "input_tokens": 3209.7922222222223,
+      "output_tokens": 85.63444444444444,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 836.3978637166323,
+      "output_tput": 836.3978637166323,
+      "input_tput": 31350.27470613896,
+      "request_rate": 9.767072924251263,
+      "tpot": 39.121879158906914,
+      "time_per_output_token": 39.121879158906914,
+      "latency": {
+        "mean": 969.3490370992934,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_1000_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:24.913Z",
+    "_fileSizeKb": "130046.9"
+  },
+  {
+    "id": "064c632f-cdf2-4c44-bc37-c131ac5d7bd3",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_1000_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/300"
+    },
+    "workload": {
+      "input_tokens": 3208.7122222222224,
+      "output_tokens": 260.65055555555557,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2449.4994883240465,
+      "output_tput": 2449.4994883240465,
+      "input_tput": 30154.31495919911,
+      "request_rate": 9.397637703488245,
+      "tpot": 48.25156195262372,
+      "time_per_output_token": 48.25156195262372,
+      "latency": {
+        "mean": 3005.9397147726527,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_1000_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:30.358Z",
+    "_fileSizeKb": "168103.5"
+  },
+  {
+    "id": "aea10d45-afff-4c06-98be-cfaed7f46697",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_100_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/1000"
+    },
+    "workload": {
+      "input_tokens": 2262.735,
+      "output_tokens": 866.1108333333333,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6640.535395391057,
+      "output_tput": 6640.535395391057,
+      "input_tput": 17348.5554961386,
+      "request_rate": 7.667073473534727,
+      "tpot": 144.40457598084254,
+      "time_per_output_token": 144.40457598084254,
+      "latency": {
+        "mean": 19412.619154099208,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_100_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:39.348Z",
+    "_fileSizeKb": "267780.9"
+  },
+  {
+    "id": "185a8278-de72-40fe-ba31-075960fdd95e",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_100_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/100"
+    },
+    "workload": {
+      "input_tokens": 2258.4394444444442,
+      "output_tokens": 86.28277777777778,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 841.1924264234839,
+      "output_tput": 841.1924264234839,
+      "input_tput": 22018.0921979081,
+      "request_rate": 9.749250639449556,
+      "tpot": 37.018778492132334,
+      "time_per_output_token": 37.018778492132334,
+      "latency": {
+        "mean": 954.6091470890678,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_100_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:42.128Z",
+    "_fileSizeKb": "97947.8"
+  },
+  {
+    "id": "b6b5c5de-087d-4c29-8884-8492503ac21c",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_100_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/300"
+    },
+    "workload": {
+      "input_tokens": 2259.9166666666665,
+      "output_tokens": 260.05555555555554,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2443.027957947378,
+      "output_tput": 2443.027957947378,
+      "input_tput": 21230.231315394663,
+      "request_rate": 9.394254057477633,
+      "tpot": 52.69351137134294,
+      "time_per_output_token": 52.69351137134294,
+      "latency": {
+        "mean": 2959.8789809748996,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_100_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:46.316Z",
+    "_fileSizeKb": "136009.9"
+  },
+  {
+    "id": "3f1fd8ed-0960-444e-8740-3024097bf723",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_300_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/1000"
+    },
+    "workload": {
+      "input_tokens": 2476.7391666666667,
+      "output_tokens": 836.1311111111111,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6343.673006056663,
+      "output_tput": 6343.673006056663,
+      "input_tput": 18790.86088992416,
+      "request_rate": 7.586935735026932,
+      "tpot": 169.29650509162414,
+      "time_per_output_token": 169.29650509162414,
+      "latency": {
+        "mean": 21460.621795989176,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_300_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:44:56.521Z",
+    "_fileSizeKb": "275462.8"
+  },
+  {
+    "id": "c39308ee-dcfc-4bea-b1c1-bbb5eb913dd7",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_300_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/100"
+    },
+    "workload": {
+      "input_tokens": 2473.0091666666667,
+      "output_tokens": 85.37305555555555,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 832.692034613498,
+      "output_tput": 832.692034613498,
+      "input_tput": 24120.66689202029,
+      "request_rate": 9.753569544803664,
+      "tpot": 39.414907255758955,
+      "time_per_output_token": 39.414907255758955,
+      "latency": {
+        "mean": 958.7404828659621,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_300_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:00.222Z",
+    "_fileSizeKb": "105311.2"
+  },
+  {
+    "id": "e7683219-154e-4769-bfa4-c61ec6f6ea77",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.cache_tracking/results/inference-perf_1759339259-cache_tracking-run_300_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/300"
+    },
+    "workload": {
+      "input_tokens": 2468.213888888889,
+      "output_tokens": 253.81472222222223,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2386.3015504810824,
+      "output_tput": 2386.3015504810824,
+      "input_tput": 23205.520067577934,
+      "request_rate": 9.401746004283414,
+      "tpot": 53.78217535300294,
+      "time_per_output_token": 53.78217535300294,
+      "latency": {
+        "mean": 2972.162302944861,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759339259-cache_tracking-run_300_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:04.763Z",
+    "_fileSizeKb": "143041.9"
+  },
+  {
+    "id": "fd29f94a-fcf3-4b14-8adf-8dacd9b7ad1e",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_1000_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/1000"
+    },
+    "workload": {
+      "input_tokens": 2940.2341666666666,
+      "output_tokens": 798.6172222222223,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6113.537310944827,
+      "output_tput": 6113.537310944827,
+      "input_tput": 22507.943456082485,
+      "request_rate": 7.655153358618257,
+      "tpot": 142.65850244604076,
+      "time_per_output_token": 142.65850244604076,
+      "latency": {
+        "mean": 20819.32397214056,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_1000_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:13.941Z",
+    "_fileSizeKb": "284577.7"
+  },
+  {
+    "id": "69ff0532-ba5e-4025-b191-47e2cf88cf22",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_1000_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/100"
+    },
+    "workload": {
+      "input_tokens": 3210.7533333333336,
+      "output_tokens": 86.7213888888889,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 845.4896930860308,
+      "output_tput": 845.4896930860308,
+      "input_tput": 31303.22155994395,
+      "request_rate": 9.7494943740962,
+      "tpot": 35.38591609982309,
+      "time_per_output_token": 35.38591609982309,
+      "latency": {
+        "mean": 947.8448149713222,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_1000_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:18.575Z",
+    "_fileSizeKb": "130297.6"
+  },
+  {
+    "id": "ed046013-d1dc-4383-93cb-41cdcaae50c9",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_1000_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "1000/300"
+    },
+    "workload": {
+      "input_tokens": 3207.6394444444445,
+      "output_tokens": 258.5188888888889,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2434.170849342564,
+      "output_tput": 2434.170849342564,
+      "input_tput": 30202.599370693908,
+      "request_rate": 9.41583363523107,
+      "tpot": 47.591089999679276,
+      "time_per_output_token": 47.591089999679276,
+      "latency": {
+        "mean": 2939.214605741953,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_1000_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:23.454Z",
+    "_fileSizeKb": "168077.4"
+  },
+  {
+    "id": "83057078-15a4-4601-b9b4-42d7270e8ce2",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_100_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/1000"
+    },
+    "workload": {
+      "input_tokens": 2260.858888888889,
+      "output_tokens": 857.7791666666667,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6499.292384511547,
+      "output_tput": 6499.292384511547,
+      "input_tput": 17130.263277565566,
+      "request_rate": 7.576882998648503,
+      "tpot": 132.83066581604513,
+      "time_per_output_token": 132.83066581604513,
+      "latency": {
+        "mean": 19302.251625933375,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_100_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:33.395Z",
+    "_fileSizeKb": "268617.3"
+  },
+  {
+    "id": "42cf86e8-c1a9-44c6-ace6-15ad57bb09bd",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_100_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/100"
+    },
+    "workload": {
+      "input_tokens": 2263.322777777778,
+      "output_tokens": 84.5,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 824.808018388377,
+      "output_tput": 824.808018388377,
+      "input_tput": 22092.387873516756,
+      "request_rate": 9.761041637732273,
+      "tpot": 38.82621271761008,
+      "time_per_output_token": 38.82621271761008,
+      "latency": {
+        "mean": 938.9279431632409,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_100_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:36.801Z",
+    "_fileSizeKb": "98227.0"
+  },
+  {
+    "id": "7cd44ba1-8ada-491e-b460-c3754aecd579",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_100_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "100/300"
+    },
+    "workload": {
+      "input_tokens": 2260.0180555555557,
+      "output_tokens": 255.08666666666667,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2397.6598112487645,
+      "output_tput": 2397.6598112487645,
+      "input_tput": 21242.797733458432,
+      "request_rate": 9.399392930175749,
+      "tpot": 53.69157889179968,
+      "time_per_output_token": 53.69157889179968,
+      "latency": {
+        "mean": 2909.0221142228174,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_100_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:41.551Z",
+    "_fileSizeKb": "135421.4"
+  },
+  {
+    "id": "f16be4a9-e357-406f-a4f7-e34e04af3746",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_300_1000_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/1000"
+    },
+    "workload": {
+      "input_tokens": 2478.1402777777776,
+      "output_tokens": 845.5527777777778,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 6429.084999697432,
+      "output_tput": 6429.084999697432,
+      "input_tput": 18842.318191986735,
+      "request_rate": 7.603410654736302,
+      "tpot": 169.07641159050658,
+      "time_per_output_token": 169.07641159050658,
+      "latency": {
+        "mean": 20506.799719190585,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_300_1000_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:50.852Z",
+    "_fileSizeKb": "275998.7"
+  },
+  {
+    "id": "64de0e1b-7dbd-41b2-b9da-04c961abd122",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_300_100_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/100"
+    },
+    "workload": {
+      "input_tokens": 2469.606388888889,
+      "output_tokens": 84.81388888888888,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 828.7772361971224,
+      "output_tput": 828.7772361971224,
+      "input_tput": 24132.292296600794,
+      "request_rate": 9.771716013197658,
+      "tpot": 39.394394287078306,
+      "time_per_output_token": 39.394394287078306,
+      "latency": {
+        "mean": 944.0759456314198,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_300_100_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:53.941Z",
+    "_fileSizeKb": "105089.0"
+  },
+  {
+    "id": "a5579c0f-fa3c-48bf-9e09-318df5f18dfc",
+    "source": "lpg_request_log",
+    "source_info": {
+      "type": "google_drive",
+      "origin": "llm-d Results Store",
+      "file_identifier": "Inference_Scheduling_with_Precise_Prefix/precise_prefix_cache_aware.default/results/inference-perf_1759344063-default-run_300_300_llm-d-0p6b-base/per_request_lifecycle_metrics.json",
+      "raw_url": "https://drive.google.com/drive/folders/1r2Z2Xp1L0KonUlvQHvEzed8AO9Xj8IPm"
+    },
+    "metadata": {
+      "model_name": "Qwen3-0.6B",
+      "hardware": "H100",
+      "variant": "300/300"
+    },
+    "workload": {
+      "input_tokens": 2467.302777777778,
+      "output_tokens": 254.4175,
+      "request_count": 3600
+    },
+    "metrics": {
+      "throughput": 2390.243330148252,
+      "output_tput": 2390.243330148252,
+      "input_tput": 23180.221517936418,
+      "request_rate": 9.39496430138749,
+      "tpot": 50.30355409097545,
+      "time_per_output_token": 50.30355409097545,
+      "latency": {
+        "mean": 2917.133316352653,
+        "p50": 0,
+        "p99": 0
+      },
+      "error_count": 0
+    },
+    "_diagnostics": {
+      "msg": [],
+      "raw_snapshot": {}
+    },
+    "model_name": "Qwen3-0.6B",
+    "run_id": "inference-perf_1759344063-default-run_300_300_llm-d-0p6b-base",
+    "timestamp": "2026-02-10T16:45:58.746Z",
+    "_fileSizeKb": "143351.5"
+  }
+]
