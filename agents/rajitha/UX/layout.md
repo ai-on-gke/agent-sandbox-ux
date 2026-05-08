@@ -1,0 +1,1 @@
+Created the structure of the plstform admin dashboard with templates and sandboxes

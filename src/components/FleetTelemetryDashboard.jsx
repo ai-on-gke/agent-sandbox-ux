@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft as BackIcon, Info as InfoIcon, AlertTriangle as AlertIcon, Zap as QuickIcon, Server as FleetIcon, Activity as HealthIcon, Layers as StackIcon, TrendingUp as SpeedIcon, ChevronRight } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
 
@@ -13,6 +13,47 @@ const sampleTimelineData = [
 
 const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
     const [activeTooltip, setActiveTooltip] = useState(null);
+    const [timeRange, setTimeRange] = useState('1h');
+    const [telemetryData, setTelemetryData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [clusterContext, setClusterContext] = useState('BARKLAND-BRUST');
+
+    useEffect(() => {
+        fetch('/api/kube-context')
+            .then(res => res.json())
+            .then(data => {
+                if (data.context) setClusterContext(data.context.toUpperCase());
+            })
+            .catch(err => console.error("Failed to fetch kube-context:", err));
+    }, []);
+
+    useEffect(() => {
+        let isMounted = true;
+        setLoading(true);
+        setError(null);
+
+        fetch(`/api/v1/telemetry/summary?range=${timeRange}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
+            .then(data => {
+                if (isMounted) {
+                    setTelemetryData(data);
+                    setLoading(false);
+                }
+            })
+            .catch(err => {
+                if (isMounted) {
+                    console.error("Failed to fetch telemetry summary:", err);
+                    setError(err.message);
+                    setLoading(false);
+                }
+            });
+
+        return () => { isMounted = false; };
+    }, [timeRange]);
 
     const toggleTooltip = (id) => {
         setActiveTooltip(activeTooltip === id ? null : id);
@@ -30,14 +71,26 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                     <ChevronRight className="h-3 w-3 text-slate-600" />
                     <span className="text-white font-bold">Warm pool fleet observability</span>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex items-center gap-3">
+                    {/* Time Range Selector */}
+                    <div className="flex bg-black/40 p-0.5 rounded-lg border border-slate-800 text-[11px] font-mono">
+                        {['1h', '12h', '24h'].map((r) => (
+                            <button
+                                key={r}
+                                onClick={() => setTimeRange(r)}
+                                className={`px-2.5 py-1 rounded-md transition-colors ${timeRange === r ? 'bg-sandbox-cyan text-black font-bold' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                {r}
+                            </button>
+                        ))}
+                    </div>
                     <button 
                         onClick={() => onNavigate('right-sizing')}
                         className="text-[11px] font-mono bg-sandbox-surface hover:border-sandbox-cyan/40 text-slate-300 px-3 py-1 rounded-lg border border-slate-800 transition-colors flex items-center gap-1"
                     >
                         <SpeedIcon className="h-3.5 w-3.5 text-sandbox-cyan" /> Right-Sizing Quad Chart
                     </button>
-                    <span className="text-xs font-mono text-slate-500 bg-black/20 px-3 py-1 rounded-lg border border-slate-800 flex items-center">CLUSTER // BARKLAND-BRUST</span>
+                    <span className="text-xs font-mono text-slate-500 bg-black/20 px-3 py-1 rounded-lg border border-slate-800 flex items-center">CLUSTER // {clusterContext}</span>
                 </div>
             </div>
 
@@ -52,13 +105,24 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                     </p>
                 </div>
                 {/* Active Warning Banner */}
-                <div className="p-3 bg-sandbox-orange/10 border border-sandbox-orange/30 rounded-xl flex items-center gap-3 max-w-md">
-                    <AlertIcon className="h-5 w-5 text-sandbox-orange shrink-0 animate-bounce" />
-                    <div className="text-[11px] leading-normal text-slate-300">
-                        <span className="text-sandbox-orange font-bold font-mono uppercase block">Warm Pool Drainage Alert</span>
-                        Exhaustion index spikes recorded at 10:30 AM due to python-codex allocation surge.
+                {/* Active Warning / Error Banner */}
+                {error ? (
+                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 max-w-md">
+                        <AlertIcon className="h-5 w-5 text-red-500 shrink-0" />
+                        <div className="text-[11px] leading-normal text-slate-300">
+                            <span className="text-red-500 font-bold font-mono uppercase block">Telemetry Fetch Error</span>
+                            {error}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="p-3 bg-sandbox-orange/10 border border-sandbox-orange/30 rounded-xl flex items-center gap-3 max-w-md">
+                        <AlertIcon className="h-5 w-5 text-sandbox-orange shrink-0 animate-bounce" />
+                        <div className="text-[11px] leading-normal text-slate-300">
+                            <span className="text-sandbox-orange font-bold font-mono uppercase block">Warm Pool Drainage Alert</span>
+                            Exhaustion index spikes recorded at 10:30 AM due to python-codex allocation surge.
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Section: Core Telemetry Metrics Summary Cards */}
@@ -78,9 +142,15 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-xl font-bold font-mono text-white mt-0.5">590 <span className="text-xs text-slate-500 font-normal">/ 600</span></div>
+                        <div className="text-xl font-bold font-mono text-white mt-0.5">
+                            {loading ? '...' : telemetryData?.summary?.readyWarmPods ?? 590} 
+                            <span className="text-xs text-slate-500 font-normal"> / {loading ? '...' : telemetryData?.summary?.desiredWarmPods ?? 600}</span>
+                        </div>
                     </div>
-                    <span className="text-[10px] font-mono text-sandbox-green flex items-center gap-0.5 mt-2 border-t border-slate-800/40 pt-1">✔ 98.3% warm capacity</span>
+                    <span className="text-[10px] font-mono text-sandbox-cyan flex items-center justify-between mt-2 border-t border-slate-800/40 pt-1 w-full">
+                        <span>Active Sandboxes: {loading ? '...' : telemetryData?.summary?.activeSandboxes ?? 1057}</span>
+                        <span className="text-sandbox-green">✔ {loading ? '...' : ((telemetryData?.summary?.readyWarmPods / telemetryData?.summary?.desiredWarmPods) * 100).toFixed(1)}% ready</span>
+                    </span>
                 </div>
 
                 {/* Card 2: Avg Creation Latency */}
@@ -98,9 +168,14 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-xl font-bold font-mono text-sandbox-cyan mt-0.5">0.82s</div>
+                        <div className="text-xl font-bold font-mono text-sandbox-cyan mt-0.5">
+                            {loading ? '...' : `${telemetryData?.summary?.p99LatencySeconds ?? 0.82}s`}
+                        </div>
                     </div>
-                    <span className="text-[10px] font-mono text-sandbox-green flex items-center gap-0.5 mt-2 border-t border-slate-800/40 pt-1">✔ SLO target met (&lt; 5s)</span>
+                    <span className="text-[10px] font-mono text-slate-400 flex items-center justify-between mt-2 border-t border-slate-800/40 pt-1 w-full">
+                        <span className="text-sandbox-green">✔ SLO met</span>
+                        <span className="text-sandbox-orange">Errors: {loading ? '...' : telemetryData?.summary?.errorCount ?? 3}</span>
+                    </span>
                 </div>
 
                 {/* Card 3: Claim Request Rates */}
@@ -118,7 +193,9 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-xl font-bold font-mono text-white mt-0.5">145 QPS</div>
+                        <div className="text-xl font-bold font-mono text-white mt-0.5">
+                            {loading ? '...' : `${telemetryData?.summary?.claimsQps ?? 145} QPS`}
+                        </div>
                     </div>
                     <span className="text-[10px] font-mono text-slate-400 flex items-center gap-0.5 mt-2 border-t border-slate-800/40 pt-1">Stabilized track</span>
                 </div>
@@ -138,9 +215,14 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-xl font-bold font-mono text-white mt-0.5">84.2%</div>
+                        <div className="text-xl font-bold font-mono text-white mt-0.5">
+                            {loading ? '...' : '84.2%'}
+                        </div>
                     </div>
-                    <span className="text-[10px] font-mono text-sandbox-cyan flex items-center gap-0.5 mt-2 border-t border-slate-800/40 pt-1">Optimized template</span>
+                    <span className="text-[10px] font-mono text-slate-400 flex items-center justify-between mt-2 border-t border-slate-800/40 pt-1 w-full">
+                        <span>CPU: {loading ? '...' : telemetryData?.summary?.cpuAllocationCores ?? '1.2k'} cores</span>
+                        <span>Mem: {loading ? '...' : telemetryData?.summary?.memoryAllocationGb ?? '4.5k'} GB</span>
+                    </span>
                 </div>
             </div>
 
@@ -154,7 +236,7 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                     </h3>
                     <div className="flex-1 w-full h-full text-[11px]">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={sampleTimelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <AreaChart data={telemetryData?.timeSeries ?? sampleTimelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorDesired" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#9D5FF2" stopOpacity={0.2}/>
@@ -184,13 +266,13 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                     </h3>
                     <div className="flex-1 w-full h-full text-[11px]">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={sampleTimelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <BarChart data={telemetryData?.timeSeries ?? sampleTimelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" opacity={0.5} />
                                 <XAxis dataKey="time" stroke="#4b5563" />
                                 <YAxis stroke="#4b5563" label={{ value: 'Seconds', angle: -90, position: 'insideLeft', fill: '#6b7280', offset: 10 }} />
                                 <Tooltip contentStyle={{ backgroundColor: '#161C24', borderColor: '#374151', color: '#FAFAFA' }} cursor={false} />
                                 <Bar dataKey="latency" name="P99 Latency (s)" fill="#00F5FF" radius={[4, 4, 0, 0]}>
-                                    {sampleTimelineData.map((entry, index) => (
+                                    {(telemetryData?.timeSeries ?? sampleTimelineData).map((entry, index) => (
                                         <area key={`cell-${index}`} fill={entry.latency > 2.5 ? '#F2994A' : '#00F5FF'} />
                                     ))}
                                 </Bar>
@@ -204,7 +286,10 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
             <div className="bg-black/20 border border-slate-800/60 rounded-xl p-4 flex items-center justify-between font-mono text-[11px] text-slate-400">
                 <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-sandbox-green" />
-                    <span>GKE Resource Grouping Engine Online: Warm pool resources tagged under workload descriptor filters.</span>
+                    <span>
+                        GKE Resource Grouping Engine Online: Aggregating resources 
+                        {telemetryData ? ` (Sandboxes: ${telemetryData.crdCounts.Sandbox}, Templates: ${telemetryData.crdCounts.SandboxTemplate}, Pools: ${telemetryData.crdCounts.SandboxWarmPool})` : ''}
+                    </span>
                 </div>
                 <span className="text-[10px] text-slate-600">POLLING DATA // EVERY 30S</span>
             </div>

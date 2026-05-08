@@ -34,6 +34,12 @@ const AgentSandboxHome = ({ onNavigate }) => {
                             Launch Admin Console <ArrowRight className="h-3 w-3" />
                         </button>
                         <button 
+                            onClick={() => onNavigate('cluster-dashboard')}
+                            className="bg-purple-500 text-white px-4 py-1 rounded-full font-bold hover:bg-purple-400 transition-colors flex items-center gap-1 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                        >
+                            Cluster Operations Deck <ArrowRight className="h-3 w-3" />
+                        </button>
+                        <button 
                             onClick={() => onNavigate('addon-config')}
                             className="bg-slate-900/60 hover:bg-slate-800/80 border border-slate-900/50 text-slate-300 px-4 py-1 rounded-full font-bold transition-colors"
                         >
@@ -71,82 +77,7 @@ const AgentSandboxHome = ({ onNavigate }) => {
                     </div>
                 </section>
 
-                {/* 3. CORE WORKFLOWS SECTION */}
-                <section className="space-y-6">
-                    <div className="text-center space-y-1">
-                        <h2 className="text-2xl font-black tracking-tight text-white font-display">
-                            Core Orchestration Workflows
-                        </h2>
-                        <p className="text-xs text-slate-450 font-sans">
-                            Standardized runtime components built to automate isolation boundaries and fast rehydration.
-                        </p>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Workflow 1: Pre-warmed Pools */}
-                        <div 
-                            onClick={() => onNavigate('fleet-telemetry')}
-                            className="group bg-sandbox-surface/80 border border-slate-900/30 rounded-2xl p-5 hover:border-sandbox-cyan/30 transition-all cursor-pointer flex flex-col justify-between gap-4 shadow-xl backdrop-blur-sm"
-                        >
-                            <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                    <Server className="h-5 w-5 text-sandbox-cyan" />
-                                    <span className="text-[9px] font-mono text-sandbox-green bg-sandbox-green/10 border border-sandbox-green/15 px-2 py-0.5 rounded-full font-bold">Warm Buffer</span>
-                                </div>
-                                <h3 className="text-sm font-bold text-white group-hover:text-sandbox-cyan transition-colors font-mono">
-                                    Smart Warmpool Provisioner
-                                </h3>
-                                <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                                    Bypass Kubernetes container initialization lags by routing claims to a dynamically managed pool of pre-heated runtime templates in under a second.
-                                </p>
-                            </div>
-                            <span className="text-[10px] font-mono text-sandbox-cyan flex items-center gap-1 group-hover:translate-x-1 transition-transform pt-1">
-                                Open Fleet Dashboard ➔
-                            </span>
-                        </div>
 
-                        {/* Workflow 2: gVisor Interception */}
-                        <div className="bg-sandbox-surface/80 border border-slate-900/30 rounded-2xl p-5 flex flex-col justify-between gap-4 shadow-xl backdrop-blur-sm opacity-90 relative">
-                            <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                    <Cpu className="h-5 w-5 text-purple-400" />
-                                    <span className="text-[9px] font-mono text-purple-400 bg-purple-500/10 border border-purple-500/15 px-2 py-0.5 rounded-full font-bold">Kernel Shield</span>
-                                </div>
-                                <h3 className="text-sm font-bold text-white font-mono">
-                                    User-Space Isolation Boundary
-                                </h3>
-                                <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                                    Intercept hazardous guest application system calls securely inside a runsc boundary layer, ensuring malicious code blocks can never touch host nodes.
-                                </p>
-                            </div>
-                            <span className="text-[10px] font-mono text-slate-500 select-none pt-1">
-                                Enforced via RuntimeClass
-                            </span>
-                        </div>
-
-                        {/* Workflow 3: Network Allowlisting */}
-                        <div 
-                            onClick={() => onNavigate('developer-logs')}
-                            className="group bg-sandbox-surface/80 border border-slate-900/30 rounded-2xl p-5 hover:border-sandbox-cyan/30 transition-all cursor-pointer flex flex-col justify-between gap-4 shadow-xl backdrop-blur-sm"
-                        >
-                            <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                    <Network className="h-5 w-5 text-sandbox-cyan" />
-                                    <span className="text-[9px] font-mono text-sandbox-cyan bg-sandbox-cyan/10 border border-sandbox-cyan/15 px-2 py-0.5 rounded-full font-bold">L7 Firewall</span>
-                                </div>
-                                <h3 className="text-sm font-bold text-white group-hover:text-sandbox-cyan transition-colors font-mono">
-                                    Layer 7 Egress Allowlisting
-                                </h3>
-                                <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                                    Audit and restrict external packet links. Block rogue connection triggers and allow approved neural model checkpoints or GitHub APIs exclusively.
-                                </p>
-                            </div>
-                            <span className="text-[10px] font-mono text-sandbox-cyan flex items-center gap-1 group-hover:translate-x-1 transition-transform pt-1">
-                                Open Diagnostics Logs ➔
-                            </span>
-                        </div>
-                    </div>
-                </section>
 
                 {/* 4. AUDIENCE SECTION: WHO IT IS FOR */}
                 <section className="space-y-6 mb-4">
