@@ -125,3 +125,10 @@ We welcome open-source contributions to enhance warm pool scheduling queues, sec
 ## License
 
 Distributed under the Apache License 2.0. See `LICENSE` for details.
+
+
+Quick Tips for Tech Web App Colors:
+The 60-30-10 Rule: Use your dominant background/neutral color for 60% of the app, your secondary/structural color for 30%, and save your vibrant accent color for the remaining 10% (buttons, alerts, active states).
+
+Accessibility is King: Always ensure your primary text color has at least a 4.5:1 contrast ratio against its background (WCAG AA standard).
+

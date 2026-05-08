@@ -10,7 +10,7 @@ const AgentSandboxHome = ({ onNavigate }) => {
                 <header className="text-center flex flex-col items-center pt-4">
                     <div className="flex items-center justify-center mb-4 space-x-3 select-none">
                         <div className="p-2.5 bg-sandbox-cyan/10 rounded-2xl border border-sandbox-cyan/15 shadow-[0_0_35px_rgba(0,245,255,0.15)]">
-                          <Shield className="h-9 w-9 text-sandbox-cyan animate-pulse" />
+                          <Shield className="h-9 w-9 text-sandbox-cyan" />
                         </div>
                         <h1 className="text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sandbox-cyan via-purple-400 to-sandbox-violet line-height-tight font-display">
                             Agent Sandbox
@@ -21,7 +21,7 @@ const AgentSandboxHome = ({ onNavigate }) => {
                     </p>
                     <div className="flex flex-wrap gap-3 justify-center items-center font-mono text-xs">
                         <span className="bg-slate-900/60 px-3 py-1 rounded-full border border-slate-900/50 text-slate-400">
-                            <span className="h-1.5 w-1.5 rounded-full bg-sandbox-green animate-pulse" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-sandbox-green" />
                             gVisor runsc Sandbox
                         </span>
                         <span className="bg-slate-900/60 px-3 py-1 rounded-full border border-slate-900/50 text-slate-400">
@@ -35,13 +35,13 @@ const AgentSandboxHome = ({ onNavigate }) => {
                         </button>
                         <button 
                             onClick={() => onNavigate('cluster-dashboard')}
-                            className="bg-purple-500 text-white px-4 py-1 rounded-full font-bold hover:bg-purple-400 transition-colors flex items-center gap-1 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                            className="bg-black/20 border border-slate-800 text-slate-400 hover:text-white px-4 py-1 rounded-full font-bold transition-colors flex items-center gap-1"
                         >
                             Cluster Operations Deck <ArrowRight className="h-3 w-3" />
                         </button>
                         <button 
                             onClick={() => onNavigate('addon-config')}
-                            className="bg-slate-900/60 hover:bg-slate-800/80 border border-slate-900/50 text-slate-300 px-4 py-1 rounded-full font-bold transition-colors"
+                            className="bg-black/20 border border-slate-800 text-slate-400 hover:text-white px-4 py-1 rounded-full font-bold transition-colors"
                         >
                             Configure GKE Operator
                         </button>

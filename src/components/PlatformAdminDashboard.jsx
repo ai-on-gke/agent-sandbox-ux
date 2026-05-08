@@ -32,8 +32,21 @@ import {
   LineChart,
   Line,
   AreaChart,
-  Area 
+  Area,
+  ScatterChart,
+  Scatter,
+  ZAxis,
+  ReferenceLine,
+  ReferenceArea
 } from 'recharts';
+
+const sampleScatterData = [
+    { name: 'minReplicas: 50 (Over-Provisioned)', cost: 85, latency: 0.4, size: 80, type: 'waste' },
+    { name: 'minReplicas: 20 (Optimal Target)', cost: 42, latency: 0.9, size: 100, type: 'optimal' },
+    { name: 'minReplicas: 0 (Cold starts)', cost: 5, latency: 12.6, size: 80, type: 'danger' },
+    { name: 'minReplicas: 10 (Low depth)', cost: 22, latency: 4.5, size: 80, type: 'danger' },
+    { name: 'minReplicas: 35 (High buffer)', cost: 65, latency: 0.6, size: 80, type: 'waste' }
+];
 
 const sampleAdminTemplates = [
   { 
@@ -197,7 +210,7 @@ const PlatformAdminDashboard = ({ onNavigateBack, onNavigate, setRoutingHistory 
   ]);
   const [snapshotsList, setSnapshotsList] = useState([
     { id: 'snap-90f2a', timestamp: '2026-05-05 10:14:22', type: 'Standard', size: '420 MB', changes: 14, status: 'Ready', gcsPath: 'gs://agent-sandbox-runtime-snapshots/prod/snap-90f2a.tar.gz' },
-    { id: 'snap-golden-llm', timestamp: '2026-05-04 16:22:10', type: 'Golden', size: '1.2 GB', changes: 184, status: 'Active Buffer', gcsPath: 'gs://agent-sandbox-runtime-snapshots/golden/snap-golden-llm.tar.gz' },
+
     { id: 'snap-hib-x892', timestamp: '2026-05-05 12:01:05', type: 'Hibernation', size: '480 MB', changes: 8, status: 'Archived', gcsPath: 'gs://agent-sandbox-runtime-snapshots/hibernation/snap-hib-x892.tar.gz' }
   ]);
   const [sandboxLifecycleMap, setSandboxLifecycleMap] = useState({
@@ -208,7 +221,7 @@ const PlatformAdminDashboard = ({ onNavigateBack, onNavigate, setRoutingHistory 
   });
   const [isOtelTracingEnabled, setIsOtelTracingEnabled] = useState(false);
   const [hibernationIdInput, setHibernationIdInput] = useState('hib-session-99ab');
-  const [autoResumeSnapshotId, setAutoResumeSnapshotId] = useState('snap-golden-llm');
+  const [autoResumeSnapshotId, setAutoResumeSnapshotId] = useState('snap-90f2a');
   const [activeDiffSnapshotId, setActiveDiffSnapshotId] = useState(null);
   const [cliInputValue, setCliInputValue] = useState('');
   const [emergencyDomainInput, setEmergencyDomainInput] = useState('untrusted-exfil-target.net');
@@ -379,7 +392,7 @@ spec:
           <div className="bg-sandbox-surface border border-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4 relative">
             <div className="flex items-start gap-3 border-b border-slate-850 pb-3">
               <div className="p-2 bg-sandbox-orange/10 rounded-full border border-sandbox-orange/30 text-sandbox-orange shrink-0">
-                <AlertTriangle className="h-5 w-5 animate-pulse" />
+                <AlertTriangle className="h-5 w-5" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white font-display">{confirmModal.title}</h3>
@@ -388,8 +401,8 @@ spec:
             </div>
             <p className="text-slate-350 text-xs leading-relaxed font-sans">{confirmModal.message}</p>
             <div className="flex items-center justify-end gap-2 mt-2 text-xs font-mono">
-              <button onClick={() => setConfirmModal(null)} className="px-3 py-2 rounded bg-black/20 border border-slate-850 text-slate-400 hover:text-white">Cancel</button>
-              <button onClick={() => { executeLifecycleAction(confirmModal.actionId); setSelectedSandbox(null); }} className="px-4 py-2 rounded bg-sandbox-orange/20 border border-sandbox-orange/40 text-sandbox-orange font-bold hover:bg-sandbox-orange hover:text-white">Proceed with action</button>
+              <button onClick={() => setConfirmModal(null)} className="px-3 py-1.5 rounded bg-black/20 border border-slate-800 text-slate-400 hover:text-white transition-all">Cancel</button>
+              <button onClick={() => { executeLifecycleAction(confirmModal.actionId); setSelectedSandbox(null); }} className="px-4 py-2 rounded bg-sandbox-cyan text-slate-950 font-bold hover:bg-cyan-400 transition-all">Proceed with action</button>
             </div>
           </div>
         </div>
@@ -425,7 +438,6 @@ spec:
         </div>
         <div className="hidden sm:flex items-center gap-3">
           <div className="flex items-center gap-1.5 bg-black/40 px-3 py-1 rounded-full border border-slate-800 shadow-inner">
-            <span className="h-2 w-2 rounded-full bg-sandbox-cyan animate-pulse" />
             <span className="text-sandbox-cyan font-bold font-mono text-[11px]">Context: {activeKubeContext || 'Loading...'}</span>
           </div>
         </div>
@@ -448,14 +460,7 @@ spec:
             </span>
           )}
         </h2>
-        <p className="text-slate-400 text-sm max-w-3xl leading-relaxed font-sans">
-          {selectedTemplate 
-            ? "Granular specifications auditor and network exfiltration preventions collections metrics context." 
-            : selectedSandbox 
-            ? "Granular container telemetry stdout logs and Layer 7 network egress connection packets auditor."
-            : "Real-time cluster metrics analyzer auditing distributed custom sandbox resource configurations and client claims volumes globally."
-          }
-        </p>
+
       </div>
 
       {/* 🔴 FULLY BORDERLESS ULTRA-MODERN HERO METRICS SECTION (GLOBAL FLEET OVERVIEW) */}
@@ -463,7 +468,7 @@ spec:
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8 shrink-0 animate-fade-in">
           
           {/* PILLAR 1: FLEET EFFICIENCY */}
-          <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
+          <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
             <div>
               <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
                 <div className="relative flex items-center gap-1 group/tooltip">
@@ -631,10 +636,10 @@ spec:
               <button
                 key={dTab.id}
                 onClick={() => { setCurrentDashboardTab(dTab.id); setSearchQuery(''); }}
-                className={`pb-3 pt-2 font-sans transition-all relative cursor-pointer flex items-baseline gap-2 -mb-[1px] ${
+                className={`px-5 py-3 border-b-2 font-bold transition-all relative cursor-pointer whitespace-nowrap -mb-[2px] ${
                   isDActive 
-                    ? 'text-white font-black tracking-wide text-base' 
-                    : 'text-slate-450 hover:text-slate-300 font-bold tracking-wide text-base'
+                    ? 'border-sandbox-cyan text-sandbox-cyan bg-gradient-to-t from-sandbox-cyan/10 via-sandbox-cyan/5 to-transparent font-extrabold shadow-[inset_0_-4px_0_rgba(0,245,255,0.1)]' 
+                    : 'border-transparent text-slate-500 hover:text-white hover:border-slate-700'
                 }`}
               >
                 <span>{dTab.label}</span>
@@ -654,14 +659,14 @@ spec:
 
       {/* ROUTER ROUTING COMPONENT CORE DRAWER SWITCHES */}
       {selectedTemplate ? (
-        /* REGISTRY TEMPLATE DETAILS SUB PAGES COCKPIT VIEW */
+        /* REGISTRY TEMPLATE DETAILS SUB PAGES VIEW */
         <div className="flex flex-col h-full animate-fade-in">
           <div className="flex items-center justify-between gap-4 mb-6 pb-3 border-b border-slate-850/40">
             <div className="text-xs font-mono text-slate-450">
-              Registry Spec Model Cockpit: <span className="text-white font-bold select-all">{selectedTemplate.name}</span>
+              Sandbox Template Details: <span className="text-white font-bold select-all">{selectedTemplate.name}</span>
             </div>
             <div className="flex gap-2 font-mono text-xs">
-              <button onClick={() => requestActionConfirmation(`Evict and recycle pools for ${selectedTemplate.name}`)} className="px-3 py-1.5 rounded bg-sandbox-orange/10 text-sandbox-orange border border-sandbox-orange/30 font-bold hover:bg-sandbox-orange hover:text-white transition-all">Recycle pool</button>
+              <button onClick={() => requestActionConfirmation(`Evict and recycle pools for ${selectedTemplate.name}`)} className="px-3 py-1.5 rounded bg-black/20 border border-slate-800 text-slate-400 hover:text-white transition-all font-bold">Recycle pool</button>
               <button onClick={() => { setSelectedTemplate(null); setDetailTab('overview'); }} className="px-3 py-1.5 rounded bg-black/20 border border-slate-800 text-slate-400 hover:text-white transition-all">Return to list</button>
             </div>
           </div>
@@ -670,7 +675,7 @@ spec:
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6 shrink-0 animate-fade-in">
             
             {/* CARD 1: ACTIVE ASSIGNED CLAIMS */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
+            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
                   <div className="relative flex items-center gap-1 group/tooltip">
@@ -700,7 +705,7 @@ spec:
             </div>
 
             {/* CARD 2: WARM RESERVE DEPTH */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
+            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
                   <div className="relative flex items-center gap-1 group/tooltip">
@@ -730,7 +735,7 @@ spec:
             </div>
 
             {/* CARD 3: DAILY OVERHEAD COST */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
+            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
                   <div className="relative flex items-center gap-1 group/tooltip">
@@ -760,7 +765,7 @@ spec:
             </div>
 
             {/* CARD 4: EXFILTRATION SHIELD */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
+            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
                   <div className="relative flex items-center gap-1 group/tooltip">
@@ -833,27 +838,30 @@ spec:
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-slate-900/80">
                       <span className="text-slate-500">Runtime Class Name:</span>
-                      <span className="text-sandbox-cyan font-bold select-all">gvisor-runsc</span>
+                      <span className="text-white font-bold select-all">gvisor-runsc</span>
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-slate-900/80">
-                      <span className="text-slate-500">Label:</span>
-                      <span className="text-slate-300 select-all">app.kubernetes.io/part-of=agent-sandbox-engine</span>
+                      <span className="text-slate-500">Labels:</span>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="text-white select-all">sandbox=python-sandbox-example</span>
+                        <span className="text-white select-all text-[10px]">sandbox.gke.io/runtime=gvisor</span>
+                      </div>
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-slate-900/80">
                       <span className="text-slate-500">Namespace:</span>
-                      <span className="text-purple-400 font-bold select-all">{selectedTemplate.namespace || 'agent-runtime-prod'}</span>
+                      <span className="text-white font-bold select-all">{selectedTemplate.namespace || 'agent-runtime-prod'}</span>
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-slate-900/80">
                       <span className="text-slate-500">Image URI:</span>
-                      <span className="text-emerald-400 truncate max-w-xs select-all" title="gcr.io/gke-ai-eco-dev/agent-image-base:v2.4.1">gcr.io/gke-ai-eco-dev/agent-image-base:v2.4.1</span>
+                      <span className="text-white truncate max-w-xs select-all" title="gcr.io/gke-ai-eco-dev/agent-image-base:v2.4.1">gcr.io/gke-ai-eco-dev/agent-image-base:v2.4.1</span>
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-slate-900/80">
                       <span className="text-slate-500">Created Date:</span>
-                      <span className="text-slate-400">2026-04-10 08:22:14 UTC</span>
+                      <span className="text-white">2026-04-10 08:22:14 UTC</span>
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-slate-900/80">
                       <span className="text-slate-500">Last Updates:</span>
-                      <span className="text-amber-300 font-bold">{selectedTemplate.lastReconciled || '1.2m ago'}</span>
+                      <span className="text-white font-bold">{selectedTemplate.lastReconciled || '1.2m ago'}</span>
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-slate-900/80">
                       <span className="text-slate-500">Status:</span>
@@ -864,8 +872,7 @@ spec:
 
                 {/* Configuration of Resource Requests and Resource Limits */}
                 <div className="bg-black border border-slate-800 rounded-xl p-4 shadow-2xl">
-                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-sandbox-cyan border-b border-slate-850 pb-2 mb-3 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-sandbox-cyan animate-pulse" />
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2 mb-3">
                     Configuration of Resource Requests and Resource Limits
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
@@ -966,6 +973,124 @@ spec:
             {/* TAB 4: OBSERVABILITY METRICS GRAPHS */}
             {detailTab === 'observability' && (
               <div className="space-y-4 max-w-5xl animate-fade-in">
+                {/* Right-Sizing Assistant (CUJ 7) */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch mb-6">
+                    
+                    {/* Left Section: 2D Quadrant Chart Canvas */}
+                    <div className="lg:col-span-2 bg-sandbox-surface border border-slate-800/60 rounded-2xl p-5 shadow-xl flex flex-col h-[380px]">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1">
+                                Resource Sizing Quadrant Mapping
+                            </h3>
+                            <div className="flex gap-4 text-[10px] font-mono">
+                                <span className="flex items-center gap-1 text-sandbox-green"><span className="h-1.5 w-1.5 rounded-full bg-sandbox-green" /> Optimal</span>
+                                <span className="flex items-center gap-1 text-sandbox-orange"><span className="h-1.5 w-1.5 rounded-full bg-sandbox-orange" /> Idle Waste</span>
+                                <span className="flex items-center gap-1 text-red-400"><span className="h-1.5 w-1.5 rounded-full bg-red-400" /> SLO Breached</span>
+                            </div>
+                        </div>
+
+                        <div className="flex-1 w-full h-full text-[11px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <ScatterChart margin={{ top: 20, right: 20, bottom: 10, left: -10 }}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" opacity={0.5} />
+                                    <XAxis type="number" dataKey="cost" name="Warm Pool Idle Cost" unit="$/day" stroke="#4b5563" domain={[0, 100]} />
+                                    <YAxis type="number" dataKey="latency" name="Init Latency" unit="s" stroke="#4b5563" domain={[0, 15]} />
+                                    <ZAxis type="number" dataKey="size" range={[60, 200]} />
+                                    
+                                    {/* Reference Target Lines for Quadrants */}
+                                    <ReferenceLine x={50} stroke="#374151" strokeDasharray="4 4" />
+                                    <ReferenceLine y={5} stroke="#374151" strokeDasharray="4 4" label={{ value: 'SLO Alert (5s)', fill: '#ef4444', position: 'top', offset: 5 }} />
+                                    
+                                    {/* Reference Zones */}
+                                    <ReferenceArea x1={0} x2={50} y1={0} y2={5} fill="#10b981" fillOpacity={0.04} />
+                                    <ReferenceArea x1={50} x2={100} y1={0} y2={5} fill="#f59e0b" fillOpacity={0.04} />
+                                    <ReferenceArea x1={0} x2={100} y1={5} y2={15} fill="#ef4444" fillOpacity={0.04} />
+
+                                    <Tooltip 
+                                        cursor={{ strokeDasharray: '3 3' }}
+                                        content={({ active, payload }) => {
+                                            if (active && payload && payload.length) {
+                                                const item = payload[0].payload;
+                                                return (
+                                                    <div className="bg-[#161C24] border border-slate-700 rounded-xl p-3 font-sans text-xs text-slate-300 shadow-2xl">
+                                                        <div className="font-bold text-white mb-1">{item.name}</div>
+                                                        <div>Warm Pool Cost: <span className="font-mono font-semibold text-pearl">${item.cost}/day</span></div>
+                                                        <div>P99 Init Latency: <span className="font-mono font-semibold text-sandbox-cyan">{item.latency}s</span></div>
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        }}
+                                    />
+                                    
+                                    <Scatter name="Sandbox Configs" data={sampleScatterData} fill="#00F5FF">
+                                        {sampleScatterData.map((entry, index) => {
+                                            let color = '#00F5FF';
+                                            if (entry.type === 'optimal') color = '#2ED168';
+                                            if (entry.type === 'waste') color = '#F2994A';
+                                            if (entry.type === 'danger') color = '#EF4444';
+                                            return <cell key={`cell-${index}`} fill={color} />;
+                                        })}
+                                    </Scatter>
+                                </ScatterChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                     {/* Right Section: Parameter Configuration Recommendation Tuning Form */}
+                    <div className="bg-sandbox-surface border border-slate-800/60 rounded-2xl p-6 flex flex-col justify-between shadow-xl relative group">
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-bold text-white font-mono flex items-center gap-1.5">
+                                <Sliders className="h-4 w-4 text-sandbox-cyan" /> Parameter optimizer
+                            </h3>
+                            
+                            <div>
+                                <div className="flex justify-between text-xs mb-1 relative group/tooltip">
+                                    <div className="flex items-center gap-1 text-slate-400">
+                                        <span>minReplicas pool depth</span>
+                                        <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan" />
+                                        <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-300 leading-normal z-50 font-sans normal-case font-normal backdrop-blur-md">
+                                            Minimum number of container environments preserved warm to eliminate cold-start initialization latency overhead.
+                                        </div>
+                                    </div>
+                                    <span className="text-sandbox-cyan font-mono font-bold">20 pods</span>
+                                </div>
+                                <input type="range" min="0" max="100" defaultValue="20" className="w-full accent-sandbox-cyan bg-slate-950 rounded-lg h-2" />
+                            </div>
+
+                            <div>
+                                <div className="flex justify-between text-xs mb-1 relative group/tooltip">
+                                    <div className="flex items-center gap-1 text-slate-400">
+                                        <span>IPPR (Instance provision rate)</span>
+                                        <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan" />
+                                        <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-300 leading-normal z-50 font-sans normal-case font-normal backdrop-blur-md">
+                                            Instance provision rate defining how quickly the cluster autoscaler creates fresh buffer instances per second.
+                                        </div>
+                                    </div>
+                                    <span className="text-sandbox-cyan font-mono font-bold">5 / sec</span>
+                                </div>
+                                <input type="range" min="1" max="20" defaultValue="5" className="w-full accent-sandbox-cyan bg-slate-950 rounded-lg h-2" />
+                            </div>
+
+                            <div className="border-t border-slate-800 pt-4 text-xs text-slate-400 space-y-2 leading-relaxed">
+                                <div className="flex gap-2 items-start p-2.5 bg-black/20 border border-slate-800 rounded-xl">
+                                    <AlertTriangle className="h-4 w-4 text-sandbox-green shrink-0 mt-0.5" />
+                                    <div>
+                                        <span className="text-white font-bold block">Sizing recommendation:</span>
+                                        Setting <code>minReplicas: 20</code> reduces initialization tail-latency to 0.9s while keeping active cluster resource waste index under optimal parameters constraints.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button 
+                            onClick={() => alert('Optimized minReplicas parameters deployed to active sandbox custom operators context')}
+                            className="w-full py-2 bg-gradient-to-r from-sandbox-cyan to-blue-600 text-slate-950 font-bold text-xs rounded-lg shadow-md hover:from-cyan-400 hover:to-blue-500 transition-colors mt-4"
+                        >
+                            Apply Parameters Optimization
+                        </button>
+                    </div>
+                </div>
                 <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-3 border border-slate-800/60 rounded-xl text-xs font-mono w-full">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-450 font-bold">Time Window:</span>
@@ -1058,8 +1183,7 @@ spec:
             {/* TAB 5: LOGS STREAMS */}
             {detailTab === 'logs' && (
               <div className="bg-black border border-slate-800 rounded-xl p-4 shadow-2xl max-w-5xl animate-fade-in">
-                <div className="text-xs font-mono text-sandbox-cyan border-b border-slate-900 pb-2 mb-3 font-bold flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-sandbox-cyan animate-pulse" />
+                <div className="text-xs font-mono text-slate-400 border-b border-slate-900 pb-2 mb-3 font-bold">
                   Live Operator Reconciler Streams for {selectedTemplate.name}
                 </div>
                 <div className="font-mono text-xs text-emerald-400 space-y-1.5 p-2 bg-slate-950/80 rounded-lg overflow-y-auto max-h-[180px] border border-slate-900 select-all">
@@ -1092,38 +1216,12 @@ spec:
         /* 🔴 BRAND NEW DELIVERABLE: HIGH-FIDELITY INDIVIDUAL SANDBOX CLAIMS DETAILS COCKPIT SUB-PAGE */
         <div className="flex flex-col h-full animate-fade-in">
           
-          {/* 🔴 VISUALIZATION OF SANDBOX LIFECYCLE STATUS AT THE TOP */}
-          <div className="bg-slate-950 border border-slate-850 rounded-xl p-3 mb-6 shadow-inner flex flex-col md:flex-row items-center justify-between gap-4 select-none shrink-0">
-            <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="text-slate-500 font-bold uppercase tracking-wider block">Lifecycle Status:</span>
-              <span className="px-2 py-0.5 rounded bg-sandbox-cyan/10 border border-sandbox-cyan/20 text-sandbox-cyan font-extrabold text-[11px]">
-                {sandboxLifecycleMap[selectedSandbox.id] || selectedSandbox.status || 'Running'}
-              </span>
-            </div>
-            <div className="flex items-center gap-1 sm:gap-2 w-full md:w-auto overflow-x-auto no-scrollbar text-[10px] font-mono">
-              <div className="flex items-center gap-1 bg-black/40 px-2.5 py-1 rounded border border-slate-850 text-slate-500 shrink-0">
-                <span>[ Provisioned ]</span>
-              </div>
-              <span className="text-slate-700 font-bold">➔</span>
-              <div className="flex items-center gap-1 bg-black/40 px-2.5 py-1 rounded border border-slate-850 text-slate-500 shrink-0">
-                <span>[ Bound ]</span>
-              </div>
-              <span className="text-slate-700 font-bold">➔</span>
-              <div className="flex items-center gap-1 bg-black/40 px-2.5 py-1 rounded border border-slate-850 text-sandbox-orange shrink-0 font-bold">
-                <span>[ Syscall Shielded ]</span>
-              </div>
-              <span className="text-slate-700 font-bold">➔</span>
-              <div className="flex items-center gap-1.5 bg-sandbox-green/10 px-3 py-1 rounded border border-sandbox-green/30 text-sandbox-green font-bold shrink-0 shadow-[0_0_8px_rgba(46,209,104,0.2)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-sandbox-green animate-ping" />
-                <span>[ Running / Active ]</span>
-              </div>
-            </div>
-          </div>
+
 
           {/* SRE Action Toolbar header control row */}
           <div className="flex items-center justify-between gap-4 mb-6 pb-3 border-b border-slate-850/40">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-mono text-slate-450">
-              <div>Instance Scope: <span className="text-white font-bold select-all">{selectedSandbox.id}</span></div>
+              <div>Sandbox ID: <span className="text-white font-bold select-all">{selectedSandbox.id}</span></div>
               <div>Isolation: <span className="text-slate-300 font-bold">{selectedSandbox.driver || 'runsc (gVisor)'}</span></div>
               <label className="flex items-center gap-1.5 bg-black/30 px-2 py-1 rounded border border-slate-800 cursor-pointer hover:border-sandbox-cyan transition-all select-none">
                 <input 
@@ -1147,18 +1245,14 @@ spec:
                   setSandboxLifecycleMap(prev => ({ ...prev, [selectedSandbox.id]: newStatus }));
                   triggerLifecycleAction(`${newStatus === 'Suspended' ? 'Suspending' : 'Resuming'} sandbox compute state, syncing state data layers`);
                 }}
-                className={`px-3 py-1.5 rounded font-bold border transition-all ${
-                  (sandboxLifecycleMap[selectedSandbox.id] || 'Running') === 'Running'
-                    ? 'bg-sandbox-orange/10 border-sandbox-orange/30 text-sandbox-orange hover:bg-sandbox-orange hover:text-white'
-                    : 'bg-sandbox-green/10 border-sandbox-green/30 text-sandbox-green hover:bg-sandbox-green hover:text-slate-950'
-                }`}
+                className="px-3 py-1.5 rounded bg-black/20 border border-slate-800 text-slate-400 hover:text-white transition-all font-bold"
               >
                 {(sandboxLifecycleMap[selectedSandbox.id] || 'Running') === 'Running' ? 'Suspend sandbox' : 'Resume sandbox'}
               </button>
 
               <button 
                 onClick={() => requestActionConfirmation(`sb-evict-${selectedSandbox.id}`)}
-                className="px-3 py-1.5 rounded bg-red-500/10 border border-red-500/20 text-red-400 font-bold hover:bg-red-500 hover:text-white transition-all"
+                className="px-3 py-1.5 rounded bg-black/20 border border-slate-800 text-slate-400 hover:text-white transition-all font-bold"
               >
                 Terminate sandbox
               </button>
@@ -1171,134 +1265,12 @@ spec:
             </div>
           </div>
 
-          {/* 🔴 RELEVANT HERO METRICS FOR SANDBOXES (Identical Visualization Style) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6 shrink-0 animate-fade-in">
-            
-            {/* CARD 1: ASSIGNED PARENT TEMPLATE */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
-              <div>
-                <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
-                  <div className="relative flex items-center gap-1 group/tooltip">
-                    <span>Assigned Parent Template</span>
-                    <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
-                    <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
-                      Explicitly referenced runtime environment model driving this isolated claim pod instance.
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap truncate">
-                  <span className="text-xl font-black font-mono text-white tracking-tight truncate max-w-[180px]">{selectedSandbox.template}</span>
-                </div>
-              </div>
-              
-              <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
-                <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
-                  <span className="text-slate-400">Spec Verified:</span>
-                  <span className="text-sandbox-cyan font-bold">Secure Bound</span>
-                </div>
-                <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
-                  <span className="text-slate-400">Driver Kernel:</span>
-                  <span className="text-slate-300 font-semibold">runsc (gVisor)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 2: ACTIVE SIBLING PODS */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
-              <div>
-                <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
-                  <div className="relative flex items-center gap-1 group/tooltip">
-                    <span>Active Sibling Pods</span>
-                    <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
-                    <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
-                      Total concurrent sibling claim instances running within the exact same assigned physical cluster node.
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap">
-                  <span className="text-2xl font-black font-mono text-white tracking-tight">18</span>
-                  <span className="text-[10px] text-slate-400 font-mono whitespace-nowrap">Instances</span>
-                </div>
-              </div>
-              
-              <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
-                <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
-                  <span className="text-slate-400">Node Pool Node:</span>
-                  <span className="text-sandbox-green font-bold truncate max-w-[100px]">pool-1-a</span>
-                </div>
-                <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
-                  <span className="text-slate-400">Load Distribution:</span>
-                  <span className="text-slate-300 font-semibold">Rebalanced</span>
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 3: EGRESS NETWORK ACCESS */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
-              <div>
-                <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
-                  <div className="relative flex items-center gap-1 group/tooltip">
-                    <span>Egress Network Access</span>
-                    <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
-                    <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
-                      Enforced Layer 7 allowlist network boundaries dropping unsanctioned external payload destinations.
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap">
-                  <span className="text-xl font-black font-mono text-sandbox-cyan tracking-tight">DNS Allowed</span>
-                </div>
-              </div>
-              
-              <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
-                <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
-                  <span className="text-slate-400">Active Sockets:</span>
-                  <span className="text-white font-bold">2 Bound</span>
-                </div>
-                <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
-                  <span className="text-slate-400">Exfil Traps:</span>
-                  <span className="text-sandbox-orange font-bold">0 Caught</span>
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 4: KERNEL HEAP OVERHEADS */}
-            <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
-              <div>
-                <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
-                  <div className="relative flex items-center gap-1 group/tooltip">
-                    <span>Kernel Heap Overheads</span>
-                    <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
-                    <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
-                      Active memory overheads allocated specifically to secure runsc user-space virtual kernel process handling.
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap">
-                  <span className="text-2xl font-black font-mono text-white tracking-tight">12.4</span>
-                  <span className="text-[10px] text-slate-400 font-mono whitespace-nowrap">MiB</span>
-                </div>
-              </div>
-              
-              <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
-                <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
-                  <span className="text-slate-400">Syscall Drops:</span>
-                  <span className="text-sandbox-green font-bold">Autopilot Shield</span>
-                </div>
-                <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
-                  <span className="text-slate-400">Tracing Buffer:</span>
-                  <span className="text-purple-400 font-semibold">Active</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
 
           {/* 🔴 REQUESTED 6 NAVIGATION TABS BAR FOR SANDBOX DETAILS */}
           <div className="flex border-b border-slate-800/80 w-full gap-2 mb-6 font-mono text-xs select-none shrink-0 overflow-x-auto no-scrollbar">
             {[
               { id: 'overview', label: 'Overview' },
-              { id: 'managedpods', label: 'Managed pods' },
+
               { id: 'snapshots', label: 'Snapshots' },
               { id: 'observability', label: 'Observability' },
               { id: 'logs', label: 'Logs' },
@@ -1328,138 +1300,115 @@ spec:
               <div className="space-y-6 max-w-5xl animate-fade-in">
                 
                 {/* Metadata Details Panel */}
-                <div className="bg-sandbox-surface border border-slate-800 rounded-xl p-4 shadow-xl">
-                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2 mb-3">
+                <div className="p-4">
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2 mb-4">
                     Sandbox Claim Pod Instance Basic Details
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 text-xs font-mono">
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 text-xs font-mono">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">Namespace:</span>
-                      <span className="text-purple-400 font-bold select-all">{selectedSandbox.namespace || 'agent-runtime-prod'}</span>
+                      <span className="text-white font-bold select-all">{selectedSandbox.namespace || 'agent-runtime-prod'}</span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">Template:</span>
                       <span className="text-white font-bold select-all">{selectedSandbox.template}</span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">Cluster:</span>
-                      <span className="text-sandbox-cyan font-bold truncate max-w-xs select-all">{activeKubeContext || selectedSandbox.cluster || 'gke-us-central-c1'}</span>
+                      <span className="text-white font-bold truncate max-w-xs select-all">{activeKubeContext || selectedSandbox.cluster || 'gke-us-central-c1'}</span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">Node:</span>
-                      <span className="text-slate-300 select-all">gke-barkland-brust-pool-1-a</span>
+                      <span className="text-white select-all">gke-barkland-brust-pool-1-a</span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">POD ID:</span>
                       <span className="text-white font-bold select-all">{selectedSandbox.id}</span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">IP Address:</span>
-                      <span className="text-emerald-400 font-bold select-all">10.52.184.12</span>
+                      <span className="text-white font-bold select-all">10.52.184.12</span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">Current Snapshot:</span>
-                      <span className="text-amber-300 font-bold select-all">snap-golden-llm (Active Base)</span>
+                      <span className="text-white font-bold select-all">snap-90f2a (Active Base)</span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-slate-900/80">
+                    <div className="flex justify-between py-1">
                       <span className="text-slate-500">Driver Boundary:</span>
-                      <span className="px-2 py-0.5 rounded bg-sandbox-cyan/10 text-sandbox-cyan border border-sandbox-cyan/20 font-bold text-[10px]">runsc (gVisor)</span>
+                      <span className="px-2 py-0.5 rounded bg-slate-800 text-white border border-slate-700 font-bold text-[10px]">runsc (gVisor)</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-slate-500">Sandbox Router:</span>
+                      <span className="text-white font-bold select-all">router.default.svc.cluster.local</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Configuration of Resource Requests and Resource Limits */}
-                <div className="bg-black border border-slate-800 rounded-xl p-4 shadow-2xl">
-                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-sandbox-cyan border-b border-slate-850 pb-2 mb-3 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-sandbox-cyan animate-pulse" />
+                <div className="p-4 mt-4">
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2 mb-4">
                     Configuration of Resource Requests and Resource Limits
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-                    <div className="bg-slate-950 p-3 rounded-lg border border-slate-900 space-y-2">
-                      <span className="text-[10px] text-slate-500 block uppercase font-bold">Resource Requests (Guaranteed Allocations)</span>
-                      <div className="flex justify-between text-slate-300 border-b border-slate-900/80 pb-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 font-mono text-xs">
+                    <div className="space-y-2">
+                      <span className="text-[10px] text-slate-500 block uppercase font-bold mb-1">Resource Requests (Guaranteed Allocations)</span>
+                      <div className="flex justify-between text-slate-300 py-1">
                         <span>Requested CPU Cores:</span>
                         <strong className="text-white font-bold">0.4 Core</strong>
                       </div>
-                      <div className="flex justify-between text-slate-300">
+                      <div className="flex justify-between text-slate-300 py-1">
                         <span>Requested Memory Footprint:</span>
                         <strong className="text-sandbox-cyan font-bold">1.1 GiB</strong>
                       </div>
                     </div>
-                    <div className="bg-slate-950 p-3 rounded-lg border border-slate-900 space-y-2">
-                      <span className="text-[10px] text-slate-500 block uppercase font-bold">Resource Limits (Maximum Hard Bounds)</span>
-                      <div className="flex justify-between text-slate-300 border-b border-slate-900/80 pb-1">
+                    <div className="space-y-2">
+                      <span className="text-[10px] text-slate-500 block uppercase font-bold mb-1">Resource Limits (Maximum Hard Bounds)</span>
+                      <div className="flex justify-between text-slate-300 py-1">
                         <span>Max Compute CPU Ceiling:</span>
                         <strong className="text-amber-300 font-bold">1.0 Core</strong>
                       </div>
-                      <div className="flex justify-between text-slate-300">
+                      <div className="flex justify-between text-slate-300 py-1">
                         <span>Max Memory Eviction Ceiling:</span>
                         <strong className="text-purple-400 font-bold">2.0 GiB</strong>
                       </div>
                     </div>
                   </div>
                 </div>
-
-                {/* Emergency Interceptor */}
-                <div className="bg-slate-950 border border-slate-900/60 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs shadow-inner mt-3">
-                  <div className="space-y-0.5">
-                    <span className="text-[10px] font-bold text-sandbox-orange uppercase tracking-wider block">Dynamic Outbound Policy Overrides Interceptor</span>
-                    <p className="text-[11px] text-slate-400 font-sans">Hot-inject emergency firewall allow/deny block rules to stop live leakage targets instantly.</p>
+                <div className="bg-sandbox-surface border border-slate-800 rounded-xl overflow-hidden shadow-2xl max-w-5xl animate-fade-in mt-4">
+                  <div className="p-3 bg-black/40 font-mono text-[10px] text-slate-400 uppercase border-b border-slate-800 font-bold select-none">
+                    List of Managed Sibling Pods Mapped to {selectedSandbox.template}
                   </div>
-                  <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <input 
-                      type="text"
-                      value={emergencyDomainInput}
-                      onChange={(e) => setEmergencyDomainInput(e.target.value)}
-                      className="bg-black border border-slate-850 rounded-lg p-2 text-white font-bold focus:outline-none focus:border-sandbox-orange w-full sm:w-56"
-                      placeholder="Enter anomalous endpoint domain..."
-                    />
-                    <button 
-                      type="button"
-                      onClick={() => {
-                        triggerLifecycleAction(`Hot-injecting active firewall ban policy drop target for domain [${emergencyDomainInput}]`);
-                        setEmergencyDomainInput('');
-                      }}
-                      className="bg-sandbox-orange/10 text-sandbox-orange border border-sandbox-orange/30 hover:bg-sandbox-orange hover:text-white font-bold px-4 py-2 rounded-lg transition-all shrink-0 shadow-sm uppercase text-[10px]"
-                    >
-                      Enforce Immediate Ban Policy
-                    </button>
-                  </div>
+                  <table className="w-full text-left text-xs font-mono border-collapse">
+                    <thead className="bg-black/20 text-slate-500 text-[10px]">
+                      <tr>
+                        <th className="px-4 py-2.5">Sibling Pod Instance ID</th>
+                        <th className="px-4 py-2.5 text-center">State</th>
+                        <th className="px-4 py-2.5">Assigned Cluster</th>
+                        <th className="px-4 py-2.5 text-right">Allocated Footprint</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300 text-[11px]">
+                      {sampleActiveSandboxesList.filter(s => s.template === selectedSandbox.template || s.cluster === selectedSandbox.cluster).map((sb) => (
+                        <tr key={sb.id} className="hover:bg-slate-900/40">
+                          <td className="px-4 py-2.5 font-bold text-white select-all">{sb.id}</td>
+                          <td className="px-4 py-2.5 text-center">
+                            <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-sandbox-green border border-emerald-500/20 text-[9px]">{sb.status}</span>
+                          </td>
+                          <td className="px-4 py-2.5 text-sandbox-cyan font-bold">{sb.cluster}</td>
+                          <td className="px-4 py-2.5 text-right text-slate-400 font-bold">{sb.cpu} / {sb.memory}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
+
+
 
               </div>
             )}
 
             {/* TAB 2: MANAGED PODS LIST */}
-            {sandboxTab === 'managedpods' && (
-              <div className="bg-sandbox-surface border border-slate-800 rounded-xl overflow-hidden shadow-2xl max-w-5xl animate-fade-in">
-                <div className="p-3 bg-black/40 font-mono text-[10px] text-slate-400 uppercase border-b border-slate-800 font-bold select-none">
-                  List of Managed Sibling Pods Mapped to {selectedSandbox.template}
-                </div>
-                <table className="w-full text-left text-xs font-mono border-collapse">
-                  <thead className="bg-black/20 text-slate-500 text-[10px]">
-                    <tr>
-                      <th className="px-4 py-2.5">Sibling Pod Instance ID</th>
-                      <th className="px-4 py-2.5 text-center">State</th>
-                      <th className="px-4 py-2.5">Assigned Cluster</th>
-                      <th className="px-4 py-2.5 text-right">Allocated Footprint</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/40 text-slate-300 text-[11px]">
-                    {sampleActiveSandboxesList.filter(s => s.template === selectedSandbox.template || s.cluster === selectedSandbox.cluster).map((sb) => (
-                      <tr key={sb.id} className="hover:bg-slate-900/40">
-                        <td className="px-4 py-2.5 font-bold text-white select-all">{sb.id}</td>
-                        <td className="px-4 py-2.5 text-center">
-                          <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-sandbox-green border border-emerald-500/20 text-[9px]">{sb.status}</span>
-                        </td>
-                        <td className="px-4 py-2.5 text-sandbox-cyan font-bold">{sb.cluster}</td>
-                        <td className="px-4 py-2.5 text-right text-slate-400 font-bold">{sb.cpu} / {sb.memory}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+
 
             {/* TAB 3: SNAPSHOTS LIST */}
             {sandboxTab === 'snapshots' && (
@@ -1468,7 +1417,6 @@ spec:
                   <div className="flex flex-col gap-1 border-r border-slate-850 pr-2">
                     <span className="text-[10px] font-bold text-slate-500 uppercase">Snapshots API Bound</span>
                     <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className="h-2 w-2 rounded-full bg-sandbox-green animate-pulse" />
                       <span className="text-white font-extrabold font-mono">GKE Native Pod Snapshots</span>
                     </div>
                     <span className="text-[9px] text-slate-450 mt-0.5">Status: Cluster Capability Verified</span>
@@ -1509,105 +1457,257 @@ spec:
                       className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-750 text-slate-300 font-semibold transition-colors"
                     >
                       Take Snapshot
-                    </button>
-                    <button 
-                      onClick={() => {
-                        const rId = Math.random().toString(36).substring(2, 7);
-                        const newSnap = {
-                          id: `snap-golden-${rId}`,
-                          timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-                          type: 'Golden',
-                          size: '1.1 GB',
-                          changes: 45,
-                          status: 'Hydrating Pool',
-                          gcsPath: `gs://agent-sandbox-runtime-snapshots/golden/snap-golden-${rId}.tar.gz`
-                        };
-                        setSnapshotsList(prev => [newSnap, ...prev]);
-                        triggerLifecycleAction('Capturing state as Persistent Golden Snapshot for cluster pools replication');
-                      }}
-                      className="px-3 py-1.5 rounded bg-sandbox-cyan/10 text-sandbox-cyan border border-sandbox-cyan/30 font-bold hover:bg-sandbox-cyan hover:text-slate-950 transition-colors"
-                    >
-                      Capture Golden Snapshot
-                    </button>
+                     </button>
+                  </div>
+                </div>                <div className="bg-sandbox-surface border border-slate-800/60 rounded-xl overflow-hidden shadow-lg w-full">
+                  <div className="p-3 bg-black/20 text-[10px] font-mono text-slate-400 uppercase border-b border-slate-850 select-none font-bold">
+                    Available Snapshots Repository List ({snapshotsList.length})
+                  </div>
+                  <div className="overflow-x-auto w-full">
+                    <table className="w-full text-left text-xs font-mono border-collapse">
+                      <thead className="bg-black/10 text-slate-500 text-[10px] select-none">
+                        <tr>
+                          <th className="px-4 py-2.5">Snapshot Identifier ID</th>
+                          <th className="px-4 py-2.5">Timestamp Captured</th>
+                          <th className="px-4 py-2.5">Type Classification</th>
+                          <th className="px-4 py-2.5">Virtual Size</th>
+                          <th className="px-4 py-2.5 text-sandbox-cyan">GCS Target Reference</th>
+                          <th className="px-4 py-2.5">Filesystem Diffs</th>
+                          <th className="px-4 py-2.5">Deployment Status</th>
+                          <th className="px-4 py-2.5 text-right">Actions / Orchestration</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-850/60 text-slate-300 text-[11px]">
+                        {snapshotsList.map((snap, sK) => {
+                          const isExpanded = activeDiffSnapshotId === snap.id;
+                          return (
+                            <React.Fragment key={sK}>
+                              <tr className={`hover:bg-black/10 transition-all ${isExpanded ? 'bg-slate-900/30' : ''}`}>
+                                <td className="px-4 py-2.5 text-white font-bold select-all">{snap.id}</td>
+                                <td className="px-4 py-2.5 text-slate-450">{snap.timestamp}</td>
+                                <td className="px-4 py-2.5">
+                                  <span className={`px-2 py-0.5 text-[9px] font-bold rounded border ${
+                                    snap.type === 'Golden' 
+                                      ? 'bg-sandbox-cyan/10 border-sandbox-cyan/20 text-sandbox-cyan'
+                                      : snap.type === 'Hibernation'
+                                      ? 'bg-purple-500/10 border-purple-500/20 text-purple-400'
+                                      : 'bg-slate-800 border-slate-700 text-slate-400'
+                                  }`}>
+                                    {snap.type}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-2.5 text-slate-300 font-semibold">{snap.size}</td>
+                                <td className="px-4 py-2.5">
+                                  <span className="text-[10px] text-slate-450 font-mono bg-black/45 border border-slate-850/80 px-2 py-0.5 rounded block truncate max-w-[180px] select-all" title={snap.gcsPath || 'gs://agent-sandbox-runtime-snapshots/default'}>
+                                    {snap.gcsPath || `gs://agent-sandbox-runtime-snapshots/manual/${snap.id}.tar.gz`}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-2.5">
+                                  <button 
+                                    onClick={() => setActiveDiffSnapshotId(isExpanded ? null : snap.id)}
+                                    className="text-amber-300 hover:underline text-left block font-bold"
+                                  >
+                                    +{snap.changes || 8} files {isExpanded ? '▲ Hide' : '▼ Inspect Diffs'}
+                                  </button>
+                                </td>
+                                <td className="px-4 py-2.5">
+                                  <span className="text-slate-450 flex items-center gap-1 text-[10px]">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-sandbox-green" /> {snap.status}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-2.5 text-right flex justify-end gap-1.5 items-center">
+                                  <button 
+                                    onClick={() => triggerLifecycleAction(`Hydrating warm pool and spawning new sandbox instance from snapshot [${snap.id}]`)}
+                                    className="px-2.5 py-1 rounded bg-sandbox-cyan/10 text-sandbox-cyan border border-sandbox-cyan/20 hover:bg-sandbox-cyan hover:text-slate-950 text-[10px] font-bold transition-all shadow-sm"
+                                  >
+                                    Create Sandbox
+                                  </button>
+                                </td>
+                              </tr>
+                              
+                              {/* Expanded Sub-Row State Diff Browser Container */}
+                              {isExpanded && (
+                                <tr className="bg-slate-950/60 border-y border-slate-850 animate-fade-in">
+                                  <td colSpan={8} className="p-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono text-slate-300">
+                                      
+                                      {/* Left Column: Filesystem Volumetric Changes */}
+                                      <div className="bg-black/40 border border-slate-850 rounded-xl p-3">
+                                        <span className="text-[10px] font-bold text-amber-400 uppercase block mb-2 tracking-wider border-b border-slate-900 pb-1">
+                                          Filesystem Changes Layer Audit Log
+                                        </span>
+                                        <div className="space-y-1.5 max-h-[160px] overflow-y-auto text-[11px] pr-1">
+                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/app/neural_weights.bin</span><span className="text-amber-300 bg-amber-500/10 px-1 rounded">Modified [840 MiB]</span></div>
+                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/var/log/agent_reasoning.log</span><span className="text-amber-300 bg-amber-500/10 px-1 rounded">Modified [+4.2 KiB]</span></div>
+                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/tmp/sandbox_context_state.json</span><span className="text-emerald-400 bg-emerald-500/10 px-1 rounded">Added [24 KiB]</span></div>
+                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/app/src/main_agent.pyc</span><span className="text-emerald-400 bg-emerald-500/10 px-1 rounded">Added [140 KiB]</span></div>
+                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/tmp/.runsc_lock</span><span className="text-red-400 bg-red-500/10 px-1 rounded">Deleted</span></div>
+                                        </div>
+                                      </div>
+
+                                      {/* Right Column: Port Connection Socket Mappings */}
+                                      <div className="bg-black/40 border border-slate-850 rounded-xl p-3">
+                                        <span className="text-[10px] font-bold text-sandbox-cyan uppercase block mb-2 tracking-wider border-b border-slate-900 pb-1">
+                                          Active Isolated Socket Connection Port Mappings
+                                        </span>
+                                        <div className="space-y-2 text-[11px]">
+                                          <div className="flex items-start justify-between gap-2 bg-slate-900/40 p-1.5 border border-slate-850 rounded">
+                                            <div>
+                                              <span className="text-white font-bold">Port 8080 (TCP)</span>
+                                              <p className="text-[10px] text-slate-450 mt-0.5">Internal Web server layer & reasoning graphs stream</p>
+                                            </div>
+                                            <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold text-[9px]">ACTIVE LISTEN</span>
+                                          </div>
+                                          <div className="flex items-start justify-between gap-2 bg-slate-900/40 p-1.5 border border-slate-850 rounded">
+                                            <div>
+                                              <span className="text-white font-bold">Port 50051 (gRPC)</span>
+                                              <p className="text-[10px] text-slate-450 mt-0.5">OpenTelemetry distributed metrics sync boundary</p>
+                                            </div>
+                                            <span className="px-1.5 py-0.5 rounded bg-sandbox-cyan/10 text-sandbox-cyan border border-sandbox-cyan/20 font-bold text-[9px]">ROUTED EGRESS</span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
-
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start w-full">
-                  <div className="bg-sandbox-surface border border-slate-800/60 rounded-xl p-4 flex flex-col gap-3 shadow-md w-full">
-                    <div className="text-[11px] font-mono font-bold uppercase text-purple-400 border-b border-slate-850 pb-1.5">
-                      Targeted Hibernation Enclosure
-                    </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                      Suspend compute processes immediately and dump memory buffers to disk mapped to a unique retrieval handle token for persistent long-term storage offloading.
-                    </p>
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-mono text-slate-500">Unique Hibernation Session Identifier Token:</span>
-                      <input 
-                        type="text"
-                        value={hibernationIdInput}
-                        onChange={(e) => setHibernationIdInput(e.target.value)}
-                        className="bg-black border border-slate-800 rounded-lg p-2 text-xs font-mono text-white focus:outline-none focus:border-purple-500 w-full"
-                      />
-                    </div>
-                    <button 
-                      onClick={() => {
-                        setSandboxLifecycleMap(prev => ({ ...prev, [selectedSandbox.id]: 'Hibernated' }));
-                        const newSnap = {
-                          id: hibernationIdInput,
-                          timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-                          type: 'Hibernation',
-                          size: '490 MB',
-                          changes: 4,
-                          status: 'Hibernated'
-                        };
-                        setSnapshotsList(prev => [newSnap, ...prev]);
-                        triggerLifecycleAction(`Offloading session sandbox to hibernation handle block ID: ${hibernationIdInput}`);
-                      }}
-                      className="w-full py-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 hover:bg-purple-500 hover:text-white font-bold text-xs rounded-lg font-mono transition-all shadow-sm"
-                    >
-                      Hibernate Session Custom ID
-                    </button>
-                  </div>
-
-                  <div className="bg-sandbox-surface border border-slate-800/60 rounded-xl p-4 flex flex-col gap-3 shadow-md w-full">
-                    <div className="text-[11px] font-mono font-bold uppercase text-sandbox-cyan border-b border-slate-850 pb-1.5">
-                      Efficient Auto-Resume Protocol Config
-                    </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                      Configure rapid rehydration bindings. When the agent returns from sleep or wakes via automated trigger, it skips baseline boots and resumes from the chosen target reference.
-                    </p>
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-mono text-slate-500">Default Hydration Snapshot Anchor:</span>
-                      <select 
-                        value={autoResumeSnapshotId}
-                        onChange={(e) => setAutoResumeSnapshotId(e.target.value)}
-                        className="bg-black border border-slate-800 rounded-lg p-2 text-xs font-mono text-sandbox-cyan focus:outline-none focus:border-sandbox-cyan w-full cursor-pointer"
-                      >
-                        {snapshotsList.map((snap, index) => (
-                          <option key={index} value={snap.id}>{snap.id} ({snap.type})</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="p-2.5 bg-black/20 border border-slate-850 rounded-lg font-mono text-[10px] text-slate-400 w-full select-none">
-                      <div className="flex justify-between">
-                        <span>Resume Fast Path Target:</span>
-                        <span className="text-white font-bold">Enforced</span>
-                      </div>
-                      <div className="flex justify-between mt-0.5">
-                        <span>Estimated Warm Bootup Time:</span>
-                        <span className="text-sandbox-green font-bold">&lt; 1.8 seconds</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             )}
 
             {/* TAB 4: OBSERVABILITY METRICS GRAPHS */}
             {sandboxTab === 'observability' && (
               <div className="space-y-4 max-w-5xl animate-fade-in">
+                {/* 🔴 RELEVANT HERO METRICS FOR SANDBOXES (Identical Visualization Style) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6 shrink-0 animate-fade-in">
+                  
+                  {/* CARD 1: ASSIGNED PARENT TEMPLATE */}
+                  <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
+                    <div>
+                      <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
+                        <div className="relative flex items-center gap-1 group/tooltip">
+                          <span>Assigned Parent Template</span>
+                          <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
+                          <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
+                            Explicitly referenced runtime environment model driving this isolated claim pod instance.
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap truncate">
+                        <span className="text-xl font-black font-mono text-white tracking-tight truncate max-w-[180px]">{selectedSandbox.template}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
+                      <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
+                        <span className="text-slate-400">Spec Verified:</span>
+                        <span className="text-sandbox-cyan font-bold">Secure Bound</span>
+                      </div>
+                      <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
+                        <span className="text-slate-400">Driver Kernel:</span>
+                        <span className="text-slate-300 font-semibold">runsc (gVisor)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CARD 2: ACTIVE SIBLING PODS */}
+                  <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
+                    <div>
+                      <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
+                        <div className="relative flex items-center gap-1 group/tooltip">
+                          <span>Active Sibling Pods</span>
+                          <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
+                          <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
+                            Total concurrent sibling claim instances running within the exact same assigned physical cluster node.
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap">
+                        <span className="text-2xl font-black font-mono text-white tracking-tight">18</span>
+                        <span className="text-[10px] text-slate-400 font-mono whitespace-nowrap">Instances</span>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
+                      <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
+                        <span className="text-slate-400">Node Pool Node:</span>
+                        <span className="text-sandbox-green font-bold truncate max-w-[100px]">pool-1-a</span>
+                      </div>
+                      <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
+                        <span className="text-slate-400">Load Distribution:</span>
+                        <span className="text-slate-300 font-semibold">Rebalanced</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CARD 3: EGRESS NETWORK ACCESS */}
+                  <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
+                    <div>
+                      <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
+                        <div className="relative flex items-center gap-1 group/tooltip">
+                          <span>Egress Network Access</span>
+                          <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
+                          <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
+                            Enforced Layer 7 allowlist network boundaries dropping unsanctioned external payload destinations.
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap">
+                        <span className="text-xl font-black font-mono text-sandbox-cyan tracking-tight">DNS Allowed</span>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
+                      <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
+                        <span className="text-slate-400">Active Sockets:</span>
+                        <span className="text-white font-bold">2 Bound</span>
+                      </div>
+                      <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
+                        <span className="text-slate-400">Exfil Traps:</span>
+                        <span className="text-sandbox-orange font-bold">0 Caught</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CARD 4: KERNEL HEAP OVERHEADS */}
+                  <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
+                    <div>
+                      <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
+                        <div className="relative flex items-center gap-1 group/tooltip">
+                          <span>Kernel Heap Overheads</span>
+                          <HelpCircle className="h-3 w-3 text-slate-500 cursor-help hover:text-sandbox-cyan transition-colors shrink-0" />
+                          <div className="absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-350 font-sans normal-case font-normal z-50 leading-relaxed backdrop-blur-md shadow-black/80 whitespace-normal">
+                            Active memory overheads allocated specifically to secure runsc user-space virtual kernel process handling.
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-baseline gap-1 mb-1 whitespace-nowrap">
+                        <span className="text-2xl font-black font-mono text-white tracking-tight">12.4</span>
+                        <span className="text-[10px] text-slate-400 font-mono whitespace-nowrap">MiB</span>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1.5 text-[10px] font-mono pt-2.5 border-t border-white/5 overflow-hidden">
+                      <div className="flex justify-between items-center bg-slate-900/40 px-2 py-1 rounded whitespace-nowrap truncate">
+                        <span className="text-slate-400">Syscall Drops:</span>
+                        <span className="text-sandbox-green font-bold">Autopilot Shield</span>
+                      </div>
+                      <div className="flex justify-between items-center px-2 py-0.5 whitespace-nowrap truncate">
+                        <span className="text-slate-400">Tracing Buffer:</span>
+                        <span className="text-purple-400 font-semibold">Active</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
                 <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-3 border border-slate-800/60 rounded-xl text-xs font-mono w-full">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-450 font-bold">Time Window:</span>
@@ -1746,7 +1846,7 @@ spec:
                     <div className="flex items-center gap-1.5"><Terminal className="h-4 w-4 text-sandbox-cyan" /> stdout / stderr active container shell log stream</div>
                     <div className="flex items-center gap-3">
                       <button onClick={() => triggerLifecycleAction('Download complete container diagnostic stdout raw text')} className="text-slate-500 hover:text-sandbox-cyan flex items-center gap-0.5 transition-colors"><Download className="h-3 w-3" /> Download</button>
-                      <span className="text-sandbox-cyan animate-pulse">● CAPTURING STREAM</span>
+                      <span className="text-sandbox-cyan">● CAPTURING STREAM</span>
                     </div>
                   </div>
                   
@@ -1835,126 +1935,7 @@ spec:
             )}
 
           </div>
-                <div className="bg-sandbox-surface border border-slate-800/60 rounded-xl overflow-hidden shadow-lg w-full">
-                  <div className="p-3 bg-black/20 text-[10px] font-mono text-slate-400 uppercase border-b border-slate-850 select-none font-bold">
-                    Available Snapshots Repository List ({snapshotsList.length})
-                  </div>
-                  <div className="overflow-x-auto w-full">
-                    <table className="w-full text-left text-xs font-mono border-collapse">
-                      <thead className="bg-black/10 text-slate-500 text-[10px] select-none">
-                        <tr>
-                          <th className="px-4 py-2.5">Snapshot Identifier ID</th>
-                          <th className="px-4 py-2.5">Timestamp Captured</th>
-                          <th className="px-4 py-2.5">Type Classification</th>
-                          <th className="px-4 py-2.5">Virtual Size</th>
-                          <th className="px-4 py-2.5 text-sandbox-cyan">GCS Target Reference</th>
-                          <th className="px-4 py-2.5">Filesystem Diffs</th>
-                          <th className="px-4 py-2.5">Deployment Status</th>
-                          <th className="px-4 py-2.5 text-right">Actions / Orchestration</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-850/60 text-slate-300 text-[11px]">
-                        {snapshotsList.map((snap, sK) => {
-                          const isExpanded = activeDiffSnapshotId === snap.id;
-                          return (
-                            <React.Fragment key={sK}>
-                              <tr className={`hover:bg-black/10 transition-all ${isExpanded ? 'bg-slate-900/30' : ''}`}>
-                                <td className="px-4 py-2.5 text-white font-bold select-all">{snap.id}</td>
-                                <td className="px-4 py-2.5 text-slate-450">{snap.timestamp}</td>
-                                <td className="px-4 py-2.5">
-                                  <span className={`px-2 py-0.5 text-[9px] font-bold rounded border ${
-                                    snap.type === 'Golden' 
-                                      ? 'bg-sandbox-cyan/10 border-sandbox-cyan/20 text-sandbox-cyan'
-                                      : snap.type === 'Hibernation'
-                                      ? 'bg-purple-500/10 border-purple-500/20 text-purple-400'
-                                      : 'bg-slate-800 border-slate-700 text-slate-400'
-                                  }`}>
-                                    {snap.type}
-                                  </span>
-                                </td>
-                                <td className="px-4 py-2.5 text-slate-300 font-semibold">{snap.size}</td>
-                                <td className="px-4 py-2.5">
-                                  <span className="text-[10px] text-slate-450 font-mono bg-black/45 border border-slate-850/80 px-2 py-0.5 rounded block truncate max-w-[180px] select-all" title={snap.gcsPath || 'gs://agent-sandbox-runtime-snapshots/default'}>
-                                    {snap.gcsPath || `gs://agent-sandbox-runtime-snapshots/manual/${snap.id}.tar.gz`}
-                                  </span>
-                                </td>
-                                <td className="px-4 py-2.5">
-                                  <button 
-                                    onClick={() => setActiveDiffSnapshotId(isExpanded ? null : snap.id)}
-                                    className="text-amber-300 hover:underline text-left block font-bold"
-                                  >
-                                    +{snap.changes || 8} files {isExpanded ? '▲ Hide' : '▼ Inspect Diffs'}
-                                  </button>
-                                </td>
-                                <td className="px-4 py-2.5">
-                                  <span className="text-slate-450 flex items-center gap-1 text-[10px]">
-                                    <span className="h-1.5 w-1.5 rounded-full bg-sandbox-green" /> {snap.status}
-                                  </span>
-                                </td>
-                                <td className="px-4 py-2.5 text-right flex justify-end gap-1.5 items-center">
-                                  <button 
-                                    onClick={() => triggerLifecycleAction(`Hydrating warm pool and spawning new sandbox instance from snapshot [${snap.id}]`)}
-                                    className="px-2.5 py-1 rounded bg-sandbox-cyan/10 text-sandbox-cyan border border-sandbox-cyan/20 hover:bg-sandbox-cyan hover:text-slate-950 text-[10px] font-bold transition-all shadow-sm"
-                                  >
-                                    Initialize
-                                  </button>
-                                </td>
-                              </tr>
-                              
-                              {/* Expanded Sub-Row State Diff Browser Container */}
-                              {isExpanded && (
-                                <tr className="bg-slate-950/60 border-y border-slate-850 animate-fade-in">
-                                  <td colSpan={8} className="p-4">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono text-slate-300">
-                                      
-                                      {/* Left Column: Filesystem Volumetric Changes */}
-                                      <div className="bg-black/40 border border-slate-850 rounded-xl p-3">
-                                        <span className="text-[10px] font-bold text-amber-400 uppercase block mb-2 tracking-wider border-b border-slate-900 pb-1">
-                                          Filesystem Changes Layer Audit Log
-                                        </span>
-                                        <div className="space-y-1.5 max-h-[160px] overflow-y-auto text-[11px] pr-1">
-                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/app/neural_weights.bin</span><span className="text-amber-300 bg-amber-500/10 px-1 rounded">Modified [840 MiB]</span></div>
-                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/var/log/agent_reasoning.log</span><span className="text-amber-300 bg-amber-500/10 px-1 rounded">Modified [+4.2 KiB]</span></div>
-                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/tmp/sandbox_context_state.json</span><span className="text-emerald-400 bg-emerald-500/10 px-1 rounded">Added [24 KiB]</span></div>
-                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/app/src/main_agent.pyc</span><span className="text-emerald-400 bg-emerald-500/10 px-1 rounded">Added [140 KiB]</span></div>
-                                          <div className="flex justify-between"><span className="text-slate-500 font-bold">/tmp/.runsc_lock</span><span className="text-red-400 bg-red-500/10 px-1 rounded">Deleted</span></div>
-                                        </div>
-                                      </div>
 
-                                      {/* Right Column: Port Connection Socket Mappings */}
-                                      <div className="bg-black/40 border border-slate-850 rounded-xl p-3">
-                                        <span className="text-[10px] font-bold text-sandbox-cyan uppercase block mb-2 tracking-wider border-b border-slate-900 pb-1">
-                                          Active Isolated Socket Connection Port Mappings
-                                        </span>
-                                        <div className="space-y-2 text-[11px]">
-                                          <div className="flex items-start justify-between gap-2 bg-slate-900/40 p-1.5 border border-slate-850 rounded">
-                                            <div>
-                                              <span className="text-white font-bold">Port 8080 (TCP)</span>
-                                              <p className="text-[10px] text-slate-450 mt-0.5">Internal Web server layer & reasoning graphs stream</p>
-                                            </div>
-                                            <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold text-[9px]">ACTIVE LISTEN</span>
-                                          </div>
-                                          <div className="flex items-start justify-between gap-2 bg-slate-900/40 p-1.5 border border-slate-850 rounded">
-                                            <div>
-                                              <span className="text-white font-bold">Port 50051 (gRPC)</span>
-                                              <p className="text-[10px] text-slate-450 mt-0.5">OpenTelemetry distributed metrics sync boundary</p>
-                                            </div>
-                                            <span className="px-1.5 py-0.5 rounded bg-sandbox-cyan/10 text-sandbox-cyan border border-sandbox-cyan/20 font-bold text-[9px]">ROUTED EGRESS</span>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                    </div>
-                                  </td>
-                                </tr>
-                              )}
-                            </React.Fragment>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
 
         </div>
       ) : (
@@ -2074,7 +2055,7 @@ spec:
                 </div>
 
                 {/* CARD 4: RESOURCE ALLOCATION QUOTAS */}
-                <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all overflow-hidden">
+                <div className="bg-slate-800/70 rounded-2xl p-4 flex flex-col justify-between shadow-2xl transition-all">
                   <div>
                     <div className="text-[10px] font-mono text-white uppercase font-bold mb-3 tracking-wider whitespace-nowrap select-none">
                       <div className="relative flex items-center gap-1 group/tooltip">
@@ -2183,7 +2164,7 @@ spec:
                         const versionStr = template.id === 'python-agent-runner' ? 'v2.4.1-stable' : template.id === 'node-sandbox-executor' ? 'v1.8.0-edge' : 'v1.0.2-patch';
                         return (
                           <tr key={template.id} className="hover:bg-slate-800/40 transition-colors border-b border-slate-800/40">
-                            <td className="px-2 py-2.5 text-center text-slate-500">▼</td>
+                            <td className="px-2 py-2.5 text-center text-slate-500"></td>
                             <td className="px-3 py-2.5 font-bold text-white">{template.name}</td>
                             <td className="px-3 py-2.5 text-center">
                               <span className="px-2 py-0.5 rounded-full text-[9px] font-mono border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">{template.status}</span>
