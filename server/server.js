@@ -69,9 +69,34 @@ app.get('/api/kube-context', (req, res) => {
     exec('kubectl config current-context', (error, stdout, stderr) => {
         if (error) {
             console.error('[Kubectl Error]', error);
-            return res.json({ context: 'gke-us-central-c1', error: error.message });
+            return res.json({ context: 'kubernetes-admin@cluster.local', error: error.message });
         }
         res.json({ context: stdout.trim() });
+    });
+});
+
+app.get('/api/kube-contexts/list', (req, res) => {
+    exec('kubectl config get-contexts -o name', (error, stdout, stderr) => {
+        if (error) {
+            console.error('[Kubectl List Error]', error);
+            return res.json({ contexts: ['kubernetes-admin@cluster.local'], error: error.message });
+        }
+        const list = stdout.trim().split('\n').map(x => x.trim()).filter(x => x);
+        res.json({ contexts: list.length > 0 ? list : ['kubernetes-admin@cluster.local'] });
+    });
+});
+
+app.post('/api/kube-context/switch', (req, res) => {
+    const { context } = req.body;
+    if (!context) {
+        return res.status(400).json({ error: 'Context name is required' });
+    }
+    exec(`kubectl config use-context ${context}`, (error, stdout, stderr) => {
+        if (error) {
+            console.error('[Kubectl Switch Error]', error);
+            return res.status(500).json({ error: 'Failed to switch context', details: error.message });
+        }
+        res.json({ success: true, context: context });
     });
 });
 
@@ -132,13 +157,22 @@ function generateAnchoredTimeSeries(range, endTime, liveCurrent) {
             latency = parseFloat((currentLatency * (0.5 + Math.random())).toFixed(2));
         }
 
+        const blockedAttempts = Math.max(0, Math.round(active * 0.05 + Math.sin(i * 1.2) * 4 + 2));
+        const allowedRequests = Math.max(10, Math.round(active * 1.8 + Math.cos(i) * 15 + 40));
+        const warmHits = Math.max(0, Math.round(ready * 0.95));
+        const coldStarts = Math.max(0, Math.round(active * 0.08 + 1));
+
         points.push({
             time: timeStr,
             timestamp: d.toISOString(),
             desired: desired,
             ready: ready,
             latency: latency,
-            activeSandboxes: active
+            activeSandboxes: active,
+            blockedAttempts: blockedAttempts,
+            allowedRequests: allowedRequests,
+            warmHits: warmHits,
+            coldStarts: coldStarts
         });
 
         currentTime += intervalMs;
@@ -156,8 +190,8 @@ app.get('/api/v1/telemetry/summary', async (req, res) => {
         const { stdout: contextStdout } = await execAsync('kubectl config current-context');
         const context = contextStdout.trim();
 
-        // 2. Query custom resources
-        const cmd = `kubectl get sandboxes,sandboxtemplates,sandboxwarmpools -o json --context=${context}`;
+        // 2. Query custom resources from all namespaces
+        const cmd = `kubectl get sandboxes,sandboxtemplates,sandboxwarmpools -A -o json --context=${context}`;
         const { stdout: resStdout } = await execAsync(cmd);
         
         const data = JSON.parse(resStdout);
@@ -170,43 +204,166 @@ app.get('/api/v1/telemetry/summary', async (req, res) => {
         let readyWarmPods = 0;
         let desiredWarmPods = 0;
 
+        const templates = [];
+        const sandboxes = [];
+        const warmPools = [];
+
+        // Build warmpool to template map
+        const warmPoolToTemplateMap = {};
+        items.forEach(item => {
+            if (item.kind === 'SandboxWarmPool') {
+                const name = item.metadata?.name;
+                const templateRef = item.spec?.sandboxTemplateRef?.name;
+                if (name && templateRef) {
+                    warmPoolToTemplateMap[name] = templateRef;
+                }
+            }
+        });
+
         items.forEach(item => {
             const kind = item.kind;
             const status = item.status || {};
             const spec = item.spec || {};
+            const metadata = item.metadata || {};
 
             if (kind === 'Sandbox') {
                 sandboxCount++;
                 const phase = (status.phase || status.state || '').toLowerCase();
+                let isActive = false;
                 if (phase === 'running' || phase === 'active' || phase === 'ready') {
                     activeSandboxCount++;
+                    isActive = true;
                 } else if (!status.phase && !status.state) {
                     activeSandboxCount++;
+                    isActive = true;
                 }
+
+                // Resolve template
+                const ownerName = metadata.ownerReferences?.[0]?.name;
+                let templateName = 'unknown';
+                if (ownerName && warmPoolToTemplateMap[ownerName]) {
+                    templateName = warmPoolToTemplateMap[ownerName];
+                } else {
+                    if (metadata.name.startsWith('dog-agent-warmpool')) {
+                        templateName = 'dog-agent-template';
+                    } else if (metadata.name.includes('python-agent-runner')) {
+                        templateName = 'python-agent-runner';
+                    } else if (metadata.name.includes('node-sandbox-executor')) {
+                        templateName = 'node-sandbox-executor';
+                    } else if (metadata.name.includes('golang-crd-validator')) {
+                        templateName = 'golang-crd-validator';
+                    }
+                }
+
+                const container = spec.podTemplate?.spec?.containers?.[0];
+                const cpuLimit = container?.resources?.limits?.cpu || container?.resources?.requests?.cpu || '0.5';
+                const memoryLimit = container?.resources?.limits?.memory || container?.resources?.requests?.memory || '512Mi';
+                
+                const formattedCpu = cpuLimit.toString().includes('m') 
+                    ? `${(parseInt(cpuLimit) / 1000).toFixed(1)} Core` 
+                    : `${cpuLimit} Core`;
+                const formattedMemory = memoryLimit.toString().includes('Mi') 
+                    ? `${parseInt(memoryLimit)} MiB` 
+                    : memoryLimit.toString().includes('Gi') 
+                        ? `${parseFloat(memoryLimit)} GiB` 
+                        : `${memoryLimit}`;
+
+                const creationTime = new Date(metadata.creationTimestamp);
+                const elapsedMs = now - creationTime;
+                const elapsedMins = Math.floor(elapsedMs / 60000);
+                let elapsed = `${elapsedMins}m active`;
+                if (elapsedMins > 60) {
+                    elapsed = `${(elapsedMins / 60).toFixed(1)}h active`;
+                }
+
+                sandboxes.push({
+                    id: metadata.name,
+                    template: templateName,
+                    status: phase === 'suspended' ? 'Suspended' : (isActive ? 'Running' : 'Ready'),
+                    cluster: context.split('_').pop() || context,
+                    namespace: metadata.namespace,
+                    cpu: formattedCpu,
+                    memory: formattedMemory,
+                    elapsed: elapsed
+                });
+
             } else if (kind === 'SandboxTemplate') {
                 templateCount++;
                 if (spec.warmPool && spec.warmPool.minReplicas) {
                     desiredWarmPods += spec.warmPool.minReplicas;
                 }
+
+                templates.push({
+                    id: metadata.name,
+                    name: metadata.name,
+                    status: 'Active',
+                    cluster: context.split('_').pop() || context,
+                    namespace: metadata.namespace,
+                    activeClaims: 0
+                });
+
             } else if (kind === 'SandboxWarmPool') {
                 warmPoolCount++;
+                const readyRep = status.readyReplicas || 0;
+                const reqRep = spec.replicas || 0;
                 if (status.readyReplicas) readyWarmPods += status.readyReplicas;
                 if (spec.replicas) desiredWarmPods += spec.replicas;
+
+                warmPools.push({
+                    name: metadata.name,
+                    templateRef: spec.sandboxTemplateRef?.name || 'unknown',
+                    namespace: metadata.namespace,
+                    replicas: reqRep,
+                    readyReplicas: readyRep,
+                    status: (readyRep === reqRep && reqRep > 0) ? 'Optimal' : 'Recovering'
+                });
             }
         });
 
-        if (desiredWarmPods === 0) desiredWarmPods = templateCount * 20; 
-        if (readyWarmPods === 0) readyWarmPods = activeSandboxCount; 
+        // Compute active claims count for each template
+        templates.forEach(t => {
+            t.activeClaims = sandboxes.filter(s => s.template === t.name).length;
+        });
+
+        // Calculate dynamic resource aggregate utilization
+        let totalCpu = 0;
+        let totalMem = 0;
+        sandboxes.forEach(s => {
+            const cpuVal = parseFloat(s.cpu);
+            if (!isNaN(cpuVal)) totalCpu += cpuVal;
+            
+            const memVal = parseFloat(s.memory);
+            if (!isNaN(memVal)) {
+                if (s.memory.includes('MiB')) {
+                    totalMem += memVal / 1024;
+                } else {
+                    totalMem += memVal;
+                }
+            }
+        });
+
+        if (desiredWarmPods === 0) {
+            desiredWarmPods = warmPools.reduce((sum, w) => sum + w.replicas, 0);
+        }
+        if (desiredWarmPods === 0) {
+            desiredWarmPods = templateCount * 20 || 200;
+        }
+        if (readyWarmPods === 0) {
+            readyWarmPods = warmPools.reduce((sum, w) => sum + w.readyReplicas, 0);
+        }
+        if (readyWarmPods === 0) {
+            readyWarmPods = activeSandboxCount;
+        }
 
         const liveCurrent = {
             activeSandboxes: activeSandboxCount,
-            desiredWarmPods: desiredWarmPods || 100, 
+            desiredWarmPods: desiredWarmPods, 
             readyWarmPods: readyWarmPods,
-            cpuAllocationCores: parseFloat((activeSandboxCount * 2.1).toFixed(1)), 
-            memoryAllocationGb: parseFloat((activeSandboxCount * 7.5).toFixed(1)), 
+            cpuAllocationCores: parseFloat(totalCpu.toFixed(1)) || parseFloat((activeSandboxCount * 0.5).toFixed(1)), 
+            memoryAllocationGb: parseFloat(totalMem.toFixed(1)) || parseFloat((activeSandboxCount * 0.5).toFixed(1)), 
             errorCount: 0, 
             p99LatencySeconds: 0.85, 
-            claimsQps: 145
+            claimsQps: activeSandboxCount > 0 ? Math.min(150, activeSandboxCount * 3) : 0
         };
 
         const timeSeries = generateAnchoredTimeSeries(range, now, liveCurrent);
@@ -220,7 +377,10 @@ app.get('/api/v1/telemetry/summary', async (req, res) => {
                 SandboxTemplate: templateCount,
                 SandboxWarmPool: warmPoolCount
             },
-            timeSeries: timeSeries
+            timeSeries: timeSeries,
+            templates: templates,
+            sandboxes: sandboxes,
+            warmPools: warmPools
         };
 
         res.json(response);
@@ -241,22 +401,22 @@ app.get('/api/templates', (req, res) => {
         {
             name: 'python-agent-runner',
             status: 'Active',
-            projectId: 'prod-data-pipelines-7c',
-            cluster: 'gke-us-central-c1',
+            projectId: 'cluster.local',
+            cluster: 'cluster.local',
             namespace: 'agent-runtime-prod',
             warmPoolSize: 20,
             activeClaims: 450,
-            yamlContent: `apiVersion: sandbox.gke.io/v1alpha1\nkind: SandboxTemplate\nmetadata:\n  name: python-agent-runner\n  namespace: agent-runtime-prod\nspec:\n  runtimeClass: runsc\n  warmPool:\n    minReplicas: 20`
+            yamlContent: `apiVersion: extensions.agents.x-k8s.io/v1alpha1\nkind: SandboxTemplate\nmetadata:\n  name: python-agent-runner\n  namespace: agent-runtime-prod\nspec:\n  runtimeClass: isolated-runtime\n  warmPool:\n    minReplicas: 20`
         },
         {
             name: 'pytorch-model-evaluator',
             status: 'Active',
-            projectId: 'prod-llm-inference-core',
-            cluster: 'gke-gpu-accelerated-02',
+            projectId: 'cluster.local',
+            cluster: 'cluster.local',
             namespace: 'inference-eval-prod',
             warmPoolSize: 15,
             activeClaims: 290,
-            yamlContent: `apiVersion: sandbox.gke.io/v1alpha1\nkind: SandboxTemplate\nmetadata:\n  name: pytorch-model-evaluator\n  namespace: inference-eval-prod\nspec:\n  runtimeClass: runsc\n  warmPool:\n    minReplicas: 15`
+            yamlContent: `apiVersion: extensions.agents.x-k8s.io/v1alpha1\nkind: SandboxTemplate\nmetadata:\n  name: pytorch-model-evaluator\n  namespace: inference-eval-prod\nspec:\n  runtimeClass: isolated-runtime\n  warmPool:\n    minReplicas: 15`
         }
     ]);
 });

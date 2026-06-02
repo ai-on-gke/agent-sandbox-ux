@@ -151,7 +151,7 @@ const TemplateManagementConsole = ({ onNavigateBack }) => {
                         </div>
                         <button 
                             onClick={() => {
-                                const clipText = consoleTab === 'yaml' ? currentYaml : `import google.gke.sandbox as sdk\n\n# Instantiate claim handles for pre-warmed isolation container pools\nclient = sdk.SandboxClient(project_id="prod-data-pipelines", cluster="gke-us-central-c1")\nsandbox = client.claim(template="${currentTemplate?.name}", warm_timeout=1.5)\n\n# Execute secure code instructions blocks safely\nresponse = sandbox.execute("main_agent_inference.py", memory_limit="1.1GiB")\nprint(f"Execution completed. Status: {response.status_code}")`;
+                                const clipText = consoleTab === 'yaml' ? currentYaml : `import google.gke.sandbox as sdk\n\n# Instantiate claim handles for pre-warmed isolation container pools\nclient = sdk.SandboxClient(project_id="gke-ai-eco-dev", cluster="barkland-brust")\nsandbox = client.claim(template="${currentTemplate?.name}", warm_timeout=1.5)\n\n# Execute secure code instructions blocks safely\nresponse = sandbox.execute("main_agent_inference.py", memory_limit="1.1GiB")\nprint(f"Execution completed. Status: {response.status_code}")`;
                                 navigator.clipboard.writeText(clipText);
                                 alert('Code contents successfully copied to clipboard.');
                             }}
@@ -172,7 +172,7 @@ const TemplateManagementConsole = ({ onNavigateBack }) => {
                           <code>{`import google.gke.sandbox as sdk
 
 # Instantiate claim handles for pre-warmed isolation container pools
-client = sdk.SandboxClient(project_id="prod-data-pipelines", cluster="gke-us-central-c1")
+client = sdk.SandboxClient(project_id="gke-ai-eco-dev", cluster="barkland-brust")
 sandbox = client.claim(template="${currentTemplate?.name}", warm_timeout=1.5)
 
 # Execute secure code instructions blocks safely and retrieve logs

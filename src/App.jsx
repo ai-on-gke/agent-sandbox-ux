@@ -20,21 +20,15 @@ import FleetTelemetryDashboard from './components/FleetTelemetryDashboard';
 import RightSizingAssistant from './components/RightSizingAssistant';
 import TemplateManagementConsole from './components/TemplateManagementConsole';
 import DeveloperTraceLogs from './components/DeveloperTraceLogs';
-import PlatformAdminDashboard from './components/PlatformAdminDashboard';
 import TemplateUsageReport from './components/TemplateUsageReport';
 import ClusterLevelDashboard from './components/ClusterLevelDashboard';
 
 function App() {
-  const [currentView, setCurrentView] = useState('home'); // 'home' | 'addon-config' | 'fleet-telemetry' | 'right-sizing' | 'templates-console' | 'developer-logs' | 'platform-admin' | 'usage-report'
+  const [currentView, setCurrentView] = useState('home'); // 'home' | 'addon-config' | 'fleet-telemetry' | 'right-sizing' | 'templates-console' | 'developer-logs' | 'usage-report'
   const [routingHistory, setRoutingHistory] = useState([]);
 
   const handleNavigateBackFromRightSizing = () => {
-    if (routingHistory.includes('platform-admin')) {
-      setCurrentView('platform-admin');
-      setRoutingHistory([]);
-    } else {
-      setCurrentView('home');
-    }
+    setCurrentView('home');
   };
 
   return (
@@ -48,7 +42,6 @@ function App() {
             {currentView === 'right-sizing' && <RightSizingAssistant onNavigateBack={handleNavigateBackFromRightSizing} onNavigate={setCurrentView} routingHistory={routingHistory} />}
             {currentView === 'templates-console' && <TemplateManagementConsole onNavigateBack={() => setCurrentView('home')} />}
             {currentView === 'developer-logs' && <DeveloperTraceLogs onNavigateBack={() => setCurrentView('home')} />}
-            {currentView === 'platform-admin' && <PlatformAdminDashboard onNavigateBack={() => setCurrentView('home')} onNavigate={setCurrentView} setRoutingHistory={setRoutingHistory} />}
             {currentView === 'cluster-dashboard' && <ClusterLevelDashboard onNavigateBack={() => setCurrentView('home')} onNavigate={setCurrentView} />}
             {currentView === 'usage-report' && <TemplateUsageReport onNavigateBack={() => setCurrentView('home')} />}
           </main>

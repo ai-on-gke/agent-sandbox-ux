@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft as BackIcon, Info as InfoIcon, AlertTriangle as AlertIcon, Zap as QuickIcon, Server as FleetIcon, Activity as HealthIcon, Layers as StackIcon, TrendingUp as SpeedIcon, ChevronRight } from 'lucide-react';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, LineChart, Line } from 'recharts';
 
 const sampleTimelineData = [
-    { time: '09:00', desired: 500, ready: 490, latency: 0.8 },
-    { time: '09:30', desired: 500, ready: 485, latency: 0.9 },
-    { time: '10:00', desired: 500, ready: 420, latency: 1.4 }, // Drainage warning
-    { time: '10:30', desired: 600, ready: 310, latency: 3.2 }, // High stress / Exhaustion
-    { time: '11:00', desired: 600, ready: 550, latency: 1.1 }, // Scaling recovery
-    { time: '11:30', desired: 600, ready: 590, latency: 0.8 }
+    { time: '09:00', desired: 500, ready: 490, latency: 0.8, blockedAttempts: 2, allowedRequests: 120, warmHits: 95, coldStarts: 5, imagePull: 0.4, schedulerBind: 0.3, networkSetup: 0.1, rpm: 1200, tokens: 42000 },
+    { time: '09:30', desired: 500, ready: 485, latency: 0.9, blockedAttempts: 4, allowedRequests: 145, warmHits: 112, coldStarts: 8, imagePull: 0.4, schedulerBind: 0.4, networkSetup: 0.1, rpm: 1450, tokens: 48000 },
+    { time: '10:00', desired: 500, ready: 420, latency: 1.4, blockedAttempts: 18, allowedRequests: 90, warmHits: 78, coldStarts: 22, imagePull: 0.7, schedulerBind: 0.5, networkSetup: 0.2, rpm: 980, tokens: 38000 },
+    { time: '10:30', desired: 600, ready: 310, latency: 3.2, blockedAttempts: 45, allowedRequests: 180, warmHits: 120, coldStarts: 60, imagePull: 1.8, schedulerBind: 1.0, networkSetup: 0.4, rpm: 2100, tokens: 82000 },
+    { time: '11:00', desired: 600, ready: 550, latency: 1.1, blockedAttempts: 12, allowedRequests: 210, warmHits: 190, coldStarts: 20, imagePull: 0.5, schedulerBind: 0.4, networkSetup: 0.2, rpm: 1950, tokens: 75000 },
+    { time: '11:30', desired: 600, ready: 590, latency: 0.8, blockedAttempts: 5, allowedRequests: 240, warmHits: 232, coldStarts: 8, imagePull: 0.4, schedulerBind: 0.3, networkSetup: 0.1, rpm: 2400, tokens: 91000 }
 ];
 
 const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
@@ -17,7 +17,7 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
     const [telemetryData, setTelemetryData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [clusterContext, setClusterContext] = useState('BARKLAND-BRUST');
+    const [clusterContext, setClusterContext] = useState('CLUSTER.LOCAL');
 
     useEffect(() => {
         fetch('/api/kube-context')
@@ -98,7 +98,7 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
             <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sandbox-cyan to-sandbox-violet mb-1">
-                        Warm Pool Fleet Observability
+                        Cluster warm pool telemetry
                     </h2>
                     <p className="text-slate-400 text-sm">
                         Real-time infrastructure tracking for desired vs. ready pods allocations and service level objectives (SLO).
@@ -110,7 +110,7 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                     <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 max-w-md">
                         <AlertIcon className="h-5 w-5 text-red-500 shrink-0" />
                         <div className="text-[11px] leading-normal text-slate-300">
-                            <span className="text-red-500 font-bold font-mono uppercase block">Telemetry Fetch Error</span>
+                            <span className="text-red-500 font-bold font-mono uppercase block">Telemetry fetch error</span>
                             {error}
                         </div>
                     </div>
@@ -118,7 +118,7 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                     <div className="p-3 bg-sandbox-orange/10 border border-sandbox-orange/30 rounded-xl flex items-center gap-3 max-w-md">
                         <AlertIcon className="h-5 w-5 text-sandbox-orange shrink-0 animate-bounce" />
                         <div className="text-[11px] leading-normal text-slate-300">
-                            <span className="text-sandbox-orange font-bold font-mono uppercase block">Warm Pool Drainage Alert</span>
+                            <span className="text-sandbox-orange font-bold font-mono uppercase block">Warm pool drainage alert</span>
                             Exhaustion index spikes recorded at 10:30 AM due to python-codex allocation surge.
                         </div>
                     </div>
@@ -126,7 +126,7 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
             </div>
 
             {/* Section: Core Telemetry Metrics Summary Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
                 {/* Card 1: Ready Pods Depth */}
                 <div className="bg-sandbox-surface border border-slate-800/60 rounded-xl p-4 flex flex-col justify-between relative group">
                     <div>
@@ -200,7 +200,32 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                     <span className="text-[10px] font-mono text-slate-400 flex items-center gap-0.5 mt-2 border-t border-slate-800/40 pt-1">Stabilized track</span>
                 </div>
 
-                {/* Card 4: Resource Efficiency */}
+                {/* Card 4: Inference Engine Constraints */}
+                <div className="bg-sandbox-surface border border-slate-800/60 rounded-xl p-4 flex flex-col justify-between relative group border-t-sandbox-cyan">
+                    <div>
+                        <div className="text-slate-450 font-display text-xs font-bold mb-1.5 select-none">
+                            <div className="relative flex items-center gap-1 group/tooltip">
+                                <span>Inference request scale</span>
+                                <InfoIcon 
+                                    onClick={(e) => { e.stopPropagation(); toggleTooltip('inference'); }}
+                                    className="h-3 w-3 text-slate-500 cursor-pointer hover:text-sandbox-cyan transition-colors" 
+                                />
+                                <div className={`absolute bottom-full left-0 mb-2 ${activeTooltip === 'inference' ? 'block' : 'hidden group-hover/tooltip:block'} w-52 p-2 bg-slate-900/95 border border-slate-800 rounded-lg shadow-2xl text-[10px] text-slate-300 leading-normal z-50 font-sans normal-case font-normal backdrop-blur-md`}>
+                                    Inference engine RPM and active token window consumption tracked for sandbox deployments.
+                                </div>
+                            </div>
+                        </div>
+                        <div className="text-xl font-bold font-mono text-white mt-0.5">
+                            2.4k <span className="text-xs text-slate-500 font-normal">RPM</span>
+                        </div>
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 flex items-center justify-between mt-2 border-t border-slate-800/40 pt-1 w-full">
+                        <span className="text-sandbox-cyan font-bold">91k Active Tokens</span>
+                        <span className="text-slate-500">vLLM Engine</span>
+                    </span>
+                </div>
+
+                {/* Card 5: Resource Efficiency */}
                 <div className="bg-sandbox-surface border border-slate-800/60 rounded-xl p-4 flex flex-col justify-between relative group">
                     <div>
                         <div className="text-slate-450 font-display text-xs font-bold mb-1.5 select-none">
@@ -280,6 +305,73 @@ const FleetTelemetryDashboard = ({ onNavigateBack, onNavigate }) => {
                         </ResponsiveContainer>
                     </div>
                 </div>
+            </div>
+
+            {/* SECOND ROW: SECURITY EGRESS DROPS & WARM CACHE HIT TIMELINE STACKS */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 animate-fade-in">
+                
+                {/* Chart 3: Egress Network Shield Drops Timeline */}
+                <div className="bg-sandbox-surface border border-slate-800/60 rounded-2xl p-5 shadow-xl flex flex-col h-[320px]">
+                    <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-1">
+                        Security Egress Shield Blocks <span className="text-[10px] text-slate-600 normal-case font-sans font-normal">(Dropped Outbound Threats)</span>
+                    </h3>
+                    <div className="flex-1 w-full h-full text-[11px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={telemetryData?.timeSeries ?? sampleTimelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" opacity={0.5} />
+                                <XAxis dataKey="time" stroke="#4b5563" fontClassName="font-mono" />
+                                <YAxis stroke="#4b5563" fontClassName="font-mono" />
+                                <Tooltip contentStyle={{ backgroundColor: '#161C24', borderColor: '#374151', color: '#FAFAFA' }} />
+                                <Legend wrapperStyle={{ paddingTop: 10 }} />
+                                <Line type="monotone" dataKey="allowedRequests" name="Allowed API Traffic" stroke="#2ED168" strokeWidth={2} dot={false} />
+                                <Line type="monotone" dataKey="blockedAttempts" name="Blocked Threat Drops" stroke="#EB5757" strokeWidth={2.5} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
+                {/* Chart 4: Cold Start Lifecycle Timing Diagnostic Stack */}
+                <div className="bg-sandbox-surface border border-slate-800/60 rounded-2xl p-5 shadow-xl flex flex-col h-[320px]">
+                    <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-1">
+                        Cold Start Timing Diagnostic <span className="text-[10px] text-slate-600 normal-case font-sans font-normal">(P99 Latency Breakdown in Seconds)</span>
+                    </h3>
+                    <div className="flex-1 w-full h-full text-[11px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={telemetryData?.timeSeries ?? sampleTimelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" opacity={0.5} />
+                                <XAxis dataKey="time" stroke="#4b5563" />
+                                <YAxis stroke="#4b5563" />
+                                <Tooltip contentStyle={{ backgroundColor: '#161C24', borderColor: '#374151', color: '#FAFAFA' }} cursor={false} />
+                                <Legend wrapperStyle={{ paddingTop: 10 }} />
+                                <Bar dataKey="imagePull" name="Image Pull (s)" fill="#9D5FF2" stackId="a" radius={[0, 0, 0, 0]} />
+                                <Bar dataKey="schedulerBind" name="Scheduler Binding (s)" fill="#F2994A" stackId="a" radius={[0, 0, 0, 0]} />
+                                <Bar dataKey="networkSetup" name="Network Attachment (s)" fill="#00F5FF" stackId="a" radius={[4, 4, 0, 0]} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
+                {/* Chart 5: Inference Token Velocity Timeline */}
+                <div className="bg-sandbox-surface border border-slate-800/60 rounded-2xl p-5 shadow-xl flex flex-col h-[320px] lg:col-span-2">
+                    <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-1">
+                        Inference Engine Token Scale <span className="text-[10px] text-slate-600 normal-case font-sans font-normal">(Active Context Windows & RPM Velocity)</span>
+                    </h3>
+                    <div className="flex-1 w-full h-full text-[11px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={telemetryData?.timeSeries ?? sampleTimelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" opacity={0.5} />
+                                <XAxis dataKey="time" stroke="#4b5563" fontClassName="font-mono" />
+                                <YAxis yAxisId="left" stroke="#00F5FF" fontClassName="font-mono" label={{ value: 'RPM', angle: -90, position: 'insideLeft', fill: '#00F5FF', offset: 15 }} />
+                                <YAxis yAxisId="right" orientation="right" stroke="#9D5FF2" fontClassName="font-mono" label={{ value: 'Tokens / Min', angle: 90, position: 'insideRight', fill: '#9D5FF2', offset: 5 }} />
+                                <Tooltip contentStyle={{ backgroundColor: '#161C24', borderColor: '#374151', color: '#FAFAFA' }} />
+                                <Legend wrapperStyle={{ paddingTop: 10 }} />
+                                <Line yAxisId="left" type="monotone" dataKey="rpm" name="Request Rate (RPM)" stroke="#00F5FF" strokeWidth={2.5} />
+                                <Line yAxisId="right" type="monotone" dataKey="tokens" name="Active Tokens Context" stroke="#9D5FF2" strokeWidth={2} dot={false} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
             </div>
 
             {/* Bottom Section: Warning Taxonomy Log Entries */}
