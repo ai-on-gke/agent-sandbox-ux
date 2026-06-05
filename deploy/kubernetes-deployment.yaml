@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-sandbox-ux
+  namespace: agent-sandbox-system
+  labels:
+    app: agent-sandbox-ux
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent-sandbox-ux
+  template:
+    metadata:
+      labels:
+        app: agent-sandbox-ux
+    spec:
+      serviceAccountName: agent-sandbox-controller
+      containers:
+      - name: agent-sandbox-ux
+        image: {{IMAGE}}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: GOOGLE_CLOUD_PROJECT
+          value: "{{PROJECT_ID}}"
+        - name: DEFAULT_PROJECTS
+          value: "{{PROJECT_ID}}"
+        - name: DEFAULT_BUCKETS
+          value: "{{DEFAULT_BUCKETS}}"
+        - name: SITE_NAME
+          value: "{{SITE_NAME}}"
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agent-sandbox-ux
+  namespace: agent-sandbox-system
+  labels:
+    app: agent-sandbox-ux
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: agent-sandbox-ux
