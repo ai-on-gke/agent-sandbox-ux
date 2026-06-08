@@ -7,8 +7,9 @@ This directory contains manifests and scripts to deploy the Agent Sandbox UX con
 2. [Prerequisites](#prerequisites)
 3. [Deployment Instructions](#deployment-instructions)
 4. [Deployment Automation Script](#deployment-automation-script)
-5. [Environment Variables Configuration](#environment-variables-configuration)
-6. [Accessing the Dashboard](#accessing-the-dashboard)
+5. [Securing with Identity-Aware Proxy (IAP)](#securing-with-identity-aware-proxy-iap)
+6. [Environment Variables Configuration](#environment-variables-configuration)
+7. [Accessing the Dashboard](#accessing-the-dashboard)
 
 ---
 
@@ -54,6 +55,40 @@ We provide a script [deploy-k8s.sh](deploy-k8s.sh) that automates building, push
 ```bash
 ./deploy/deploy-k8s.sh --cluster my-gke-cluster --zone us-central1-a --project my-gcp-project-id
 ```
+
+---
+
+## 🔒 Securing with Identity-Aware Proxy (IAP)
+
+To secure the console for enterprise production, you can enable Google Cloud Identity-Aware Proxy (IAP) to gate access to authorized users in your GCP organization.
+
+### 1. Prerequisites
+1. **OAuth Consent Screen**: Set up an OAuth consent screen in your Google Cloud Console.
+2. **OAuth Credentials**: Create an OAuth client ID of application type **Web application**. Add the following redirect URI to the client:
+   `https://iap.googleapis.com/v1/oauth/clientIds/YOUR_CLIENT_ID:handleRedirect`
+3. **Create Kubernetes Secret**: Create a Kubernetes secret containing your OAuth client ID and secret in the target namespace:
+   ```bash
+   kubectl create secret generic iap-oauth-client-secret \
+     --namespace=agent-sandbox-system \
+     --from-literal=client_id=YOUR_CLIENT_ID \
+     --from-literal=client_secret=YOUR_CLIENT_SECRET
+   ```
+4. **SSL Certificate**: Make sure you have a pre-shared Google Cloud SSL Certificate name (or use a GKE-managed certificate).
+
+### 2. Deploying with IAP
+Pass the `--iap` flag along with your custom `--domain` and `--ssl-cert` arguments:
+```bash
+./deploy/deploy-k8s.sh \
+  --cluster my-gke-cluster \
+  --zone us-central1-a \
+  --project my-gcp-project-id \
+  --iap \
+  --domain console.example.com \
+  --ssl-cert my-pre-shared-ssl-cert
+```
+This will automatically:
+- Configure and apply the GKE `BackendConfig` and `Ingress` resources.
+- Annotate the Service to route all external HTTPS traffic through the Identity-Aware Proxy.
 
 ---
 

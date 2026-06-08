@@ -47,6 +47,8 @@ metadata:
   namespace: agent-sandbox-system
   labels:
     app: agent-sandbox-ux
+  annotations:
+    {{SERVICE_ANNOTATIONS}}
 spec:
   type: ClusterIP
   ports:

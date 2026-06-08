@@ -25,12 +25,20 @@ NAMESPACE="${NAMESPACE:-agent-sandbox-system}"
 DEFAULT_BUCKETS="${DEFAULT_BUCKETS:-my-sandbox-snapshots-bucket}"
 SITE_NAME="${SITE_NAME:-Agent Sandbox Console}"
 
+# IAP Configurations
+ENABLE_IAP="false"
+DOMAIN_NAME="${DOMAIN_NAME:-}"
+SSL_CERT_NAME="${SSL_CERT_NAME:-}"
+
 usage() {
   echo "Usage: $0 [options]"
   echo "Options:"
   echo "  -p, --project <ID>      Google Cloud Project ID (default: ${PROJECT_ID:-None})"
   echo "  -c, --cluster <NAME>    GKE Cluster Name (default: ${CLUSTER_NAME:-None})"
   echo "  -z, --zone <ZONE>       GKE Cluster Zone (default: ${ZONE:-None})"
+  echo "  --iap                   Enable GKE Identity-Aware Proxy (IAP)"
+  echo "  --domain <HOST>         Custom domain name for HTTPS Ingress (required for --iap)"
+  echo "  --ssl-cert <NAME>       Pre-shared SSL certificate name in GCP (required for --iap)"
   echo "  -h, --help              Show this help message"
   exit 1
 }
@@ -41,6 +49,9 @@ while [[ "$#" -gt 0 ]]; do
     -p|--project) PROJECT_ID="$2"; shift ;;
     -c|--cluster) CLUSTER_NAME="$2"; shift ;;
     -z|--zone) ZONE="$2"; shift ;;
+    --iap) ENABLE_IAP="true" ;;
+    --domain) DOMAIN_NAME="$2"; shift ;;
+    --ssl-cert) SSL_CERT_NAME="$2"; shift ;;
     -h|--help) usage ;;
     *) echo "Unknown parameter: $1"; usage ;;
   esac
@@ -65,6 +76,18 @@ if [ -z "$ZONE" ]; then
   echo "Please set the ZONE environment variable or pass the -z/--zone flag." >&2
   exit 1
 fi
+
+if [ "$ENABLE_IAP" = "true" ]; then
+  if [ -z "$DOMAIN_NAME" ]; then
+    echo "Error: --domain <HOST> must be specified when using --iap." >&2
+    exit 1
+  fi
+  if [ -z "$SSL_CERT_NAME" ]; then
+    echo "Error: --ssl-cert <NAME> must be specified when using --iap." >&2
+    exit 1
+  fi
+fi
+
 
 # Define Registry and Image URL dynamically
 REGISTRY="${REGISTRY:-us-central1-docker.pkg.dev/$PROJECT_ID/my-sandbox-repo}"
@@ -94,13 +117,30 @@ docker push "$FULL_IMAGE_URL"
 # 4. Deploy to Kubernetes
 echo "Deploying as a standalone Service and Deployment..."
 
+# Resolve Service annotations based on IAP enablement
+if [ "$ENABLE_IAP" = "true" ]; then
+  SERVICE_ANNOTATIONS="beta.cloud.google.com/backend-config: '{\"default\": \"agent-sandbox-ux-iap-config\"}'"
+else
+  SERVICE_ANNOTATIONS="kubernetes.io/change-cause: 'deploy'"
+fi
+
 # Replace placeholders on-the-fly and apply the standalone manifests
 cat deploy/kubernetes-deployment.yaml \
   | sed "s|{{IMAGE}}|${FULL_IMAGE_URL}|g" \
   | sed "s|{{PROJECT_ID}}|${PROJECT_ID}|g" \
   | sed "s|{{DEFAULT_BUCKETS}}|${DEFAULT_BUCKETS}|g" \
   | sed "s|{{SITE_NAME}}|${SITE_NAME}|g" \
+  | sed "s|{{SERVICE_ANNOTATIONS}}|${SERVICE_ANNOTATIONS}|g" \
   | kubectl apply -f -
+
+# Deploy GKE IAP BackendConfig & Ingress if enabled
+if [ "$ENABLE_IAP" = "true" ]; then
+  echo "Deploying GKE IAP BackendConfig and Ingress..."
+  cat deploy/kubernetes-iap.yaml \
+    | sed "s|{{DOMAIN_NAME}}|${DOMAIN_NAME}|g" \
+    | sed "s|{{SSL_CERT_NAME}}|${SSL_CERT_NAME}|g" \
+    | kubectl apply -f -
+fi
 
 # 5. Verify the Deployment
 echo "Verifying the deployment..."
