@@ -50,7 +50,7 @@ metadata:
   annotations:
     {{SERVICE_ANNOTATIONS}}
 spec:
-  type: ClusterIP
+  type: {{SERVICE_TYPE}}
   ports:
   - port: 80
     targetPort: 8080

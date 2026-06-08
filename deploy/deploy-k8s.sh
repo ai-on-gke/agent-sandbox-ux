@@ -24,6 +24,7 @@ TAG="${TAG:-latest}"
 NAMESPACE="${NAMESPACE:-agent-sandbox-system}"
 DEFAULT_BUCKETS="${DEFAULT_BUCKETS:-my-sandbox-snapshots-bucket}"
 SITE_NAME="${SITE_NAME:-Agent Sandbox Console}"
+SERVICE_TYPE="${SERVICE_TYPE:-ClusterIP}"
 
 # IAP Configurations
 ENABLE_IAP="false"
@@ -36,6 +37,7 @@ usage() {
   echo "  -p, --project <ID>      Google Cloud Project ID (default: ${PROJECT_ID:-None})"
   echo "  -c, --cluster <NAME>    GKE Cluster Name (default: ${CLUSTER_NAME:-None})"
   echo "  -z, --zone <ZONE>       GKE Cluster Zone (default: ${ZONE:-None})"
+  echo "  --service-type <TYPE>   Kubernetes Service type: ClusterIP or LoadBalancer (default: ClusterIP)"
   echo "  --iap                   Enable GKE Identity-Aware Proxy (IAP)"
   echo "  --domain <HOST>         Custom domain name for HTTPS Ingress (required for --iap)"
   echo "  --ssl-cert <NAME>       Pre-shared SSL certificate name in GCP (required for --iap)"
@@ -49,6 +51,7 @@ while [[ "$#" -gt 0 ]]; do
     -p|--project) PROJECT_ID="$2"; shift ;;
     -c|--cluster) CLUSTER_NAME="$2"; shift ;;
     -z|--zone) ZONE="$2"; shift ;;
+    --service-type) SERVICE_TYPE="$2"; shift ;;
     --iap) ENABLE_IAP="true" ;;
     --domain) DOMAIN_NAME="$2"; shift ;;
     --ssl-cert) SSL_CERT_NAME="$2"; shift ;;
@@ -100,6 +103,7 @@ echo "Zone:             $ZONE"
 echo "Image URL:        $FULL_IMAGE_URL"
 echo "Default Buckets:  $DEFAULT_BUCKETS"
 echo "Site Name:        $SITE_NAME"
+echo "Service Type:     $SERVICE_TYPE"
 echo "=================================================="
 
 # 1. Authenticate with GKE cluster
@@ -131,6 +135,7 @@ cat deploy/kubernetes-deployment.yaml \
   | sed "s|{{DEFAULT_BUCKETS}}|${DEFAULT_BUCKETS}|g" \
   | sed "s|{{SITE_NAME}}|${SITE_NAME}|g" \
   | sed "s|{{SERVICE_ANNOTATIONS}}|${SERVICE_ANNOTATIONS}|g" \
+  | sed "s|{{SERVICE_TYPE}}|${SERVICE_TYPE}|g" \
   | kubectl apply -f -
 
 # Deploy GKE IAP BackendConfig & Ingress if enabled

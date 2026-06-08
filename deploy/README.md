@@ -52,8 +52,15 @@ kubectl apply -f deploy/kubernetes-deployment.yaml
 
 We provide a script [deploy-k8s.sh](deploy-k8s.sh) that automates building, pushing, and deploying the application.
 
+### Default ClusterIP Deployment (Internal only)
 ```bash
 ./deploy/deploy-k8s.sh --cluster my-gke-cluster --zone us-central1-a --project my-gcp-project-id
+```
+
+### LoadBalancer Deployment (Exposes a public external IP)
+To access the UI directly without port-forwarding, run with `--service-type LoadBalancer`:
+```bash
+./deploy/deploy-k8s.sh --cluster my-gke-cluster --zone us-central1-a --project my-gcp-project-id --service-type LoadBalancer
 ```
 
 ---
@@ -104,6 +111,7 @@ Both the deployment script and GKE manifests read configuration options from env
 | `REGISTRY` | Google Artifact Registry repository path | `us-central1-docker.pkg.dev/$PROJECT_ID/my-sandbox-repo` |
 | `DEFAULT_BUCKETS` | GCS bucket for memory/state snapshots | `my-sandbox-snapshots-bucket` |
 | `SITE_NAME` | Title header displayed in the dashboard | `Agent Sandbox Console` |
+| `SERVICE_TYPE` | GKE Service type: `ClusterIP` or `LoadBalancer` | `ClusterIP` |
 
 If you export these variables, you can run the deployment script without passing any command-line options:
 
@@ -119,9 +127,21 @@ export DEFAULT_BUCKETS="my-custom-snapshots-bucket"
 
 ## 🌐 Accessing the Dashboard
 
-Once deployed, you can access the dashboard via port-forwarding:
+Depending on your deployment configuration, you can access the dashboard in the following ways:
+
+### 1. Port Forwarding (Default ClusterIP)
+If you deployed using the default `ClusterIP` service type, use `kubectl` to port-forward to your localhost:
 ```bash
 kubectl port-forward svc/agent-sandbox-ux 8080:80 -n agent-sandbox-system
 ```
+Then, navigate to [http://localhost:8080](http://localhost:8080) in your web browser.
 
-Open [http://localhost:8080](http://localhost:8080) in your web browser to view the console.
+### 2. External IP (LoadBalancer)
+If you deployed with `--service-type LoadBalancer`, retrieve the external IP allocated by Google Cloud:
+```bash
+kubectl get service agent-sandbox-ux -n agent-sandbox-system
+```
+Look for the `EXTERNAL-IP` field and navigate to `http://<EXTERNAL-IP>` in your web browser.
+
+### 3. HTTPS Custom Domain (IAP Ingress)
+If you enabled Identity-Aware Proxy (`--iap`), access the console using your configured custom domain (e.g. `https://console.example.com`). All requests will be intercepted by Google's OAuth consent gate to verify the user's identity before accessing the dashboard.
