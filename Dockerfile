@@ -14,6 +14,14 @@ FROM node:25-alpine
 
 WORKDIR /app
 
+# Install curl and download a specific stable kubectl version matching container architecture
+ARG KUBECTL_VERSION=v1.30.2
+RUN apk add --no-cache curl \
+    && ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/') \
+    && curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" \
+    && chmod +x kubectl \
+    && mv kubectl /usr/local/bin/
+
 # Install production dependencies for server
 COPY package*.json ./
 RUN npm install --omit=dev
@@ -21,8 +29,11 @@ RUN npm install --omit=dev
 # Copy server and built assets
 COPY server ./server
 COPY --from=build /app/dist ./dist
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
 
 ENV PORT=8080
 EXPOSE 8080
 
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["npm", "start"]

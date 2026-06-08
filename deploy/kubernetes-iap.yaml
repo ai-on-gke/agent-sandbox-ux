@@ -1,0 +1,34 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: agent-sandbox-ux-iap-config
+  namespace: agent-sandbox-system
+spec:
+  iap:
+    enabled: true
+    oauthclientCredentials:
+      secretName: iap-oauth-client-secret
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: agent-sandbox-ux-ingress
+  namespace: agent-sandbox-system
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    # Specify the static global IP name (optional, recommended for production)
+    # kubernetes.io/ingress.global-static-ip-name: "my-static-ip-name"
+    # Specify the managed SSL certificate name (required for GKE HTTPS Load Balancer)
+    ingress.gcp.kubernetes.io/pre-shared-cert: "{{SSL_CERT_NAME}}"
+spec:
+  rules:
+  - host: "{{DOMAIN_NAME}}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: agent-sandbox-ux
+            port:
+              number: 80
