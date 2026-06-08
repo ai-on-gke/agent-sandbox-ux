@@ -1,134 +1,183 @@
-# Agent Sandbox
+# Agent Sandbox UX (Prism Console)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-> **Secure, High-Performance Isolated Container Orchestration for Ephemeral AI Agent Workloads on Google Kubernetes Engine (GKE).**
+> **Visual dashboard and control console for managing and monitoring Ephemeral AI Agent Workloads on Google Kubernetes Engine (GKE).**
 
 ---
 
-## Overview
+## 🔍 About the UX Console (Prism)
 
-**Agent Sandbox** provides enterprise platform teams, SREs, and AI engineers with a modular, visually stunning console hub to deploy, audit, and contain autonomous AI agent scripts. 
+The **Agent Sandbox UX** (internally known as Prism) is a modern web console designed for platform administrators, SREs, and AI developers to observe, audit, and manage containerized agent runtimes in GKE.
 
-When AI agents generate and execute arbitrary code blocks or interact with untrusted third-party software dependencies, they present dangerous threat vectors—including host node kernel breakouts and network data exfiltration. Agent Sandbox isolates these ephemeral workloads inside secure user-space containers, combining **sub-second cold start latency** with **zero-trust infrastructure constraints**.
+### Key Features of the Dashboard:
+- **Warmpool Monitor:** View real-time occupancy and capacity of pre-warmed sandbox pools.
+- **Active Sandboxes List:** Browse all active sandbox leases, their resource consumption, lifecycle state (e.g. running, paused), and uptime.
+- **Egress Violations Auditing:** Check telemetry logs for blocked egress calls to unapproved internet domains.
+- **Templates Catalog:** View available `SandboxTemplate` configurations in the cluster.
+- **Interactive Metrics:** Beautiful charts showing container startup latency percentiles, memory profiles, and pool claim counts.
 
----
-
-## Core Capabilities & Workflows
-
-### 🚀 Smart Warmpool Provisioner
-Bypass standard Kubernetes container scheduling delays. Agent Sandbox manages dynamically scaled pools of pre-heated execution nodes using state queues, enabling instant container claim allocations in **under 1.0 seconds**.
-
-### 🛡️ gVisor Kernel Containment
-Every execution container runs isolated inside a custom user-space kernel layer (`runsc`). Guest application system calls are intercepted before reaching the host Linux kernel, guaranteeing that malicious exploits cannot breach tenant constraints.
-
-### 🌐 Layer 7 Network Egress Filtering
-Strict allowlist auditing blocks arbitrary outbound packet calls. Prevent data leakage by restricting agent egress to explicitly verified domain endpoints (e.g., OpenAI APIs, safe package repositories) while blocking malicious exfiltration targets instantly.
-
-### 💾 State Capture Replication Engine
-Leverage GKE native pod snapshots to freeze running memory contexts and serialize full state layers to secure Google Cloud Storage (GCS) destinations. Rehydrate warm footprints via fast-path resume bindings in **less than 1.8 seconds**, skipping baseline boot sequences.
+The project is built as a single-page app (SPA) using **Vite, React, and Recharts** on the frontend, proxied by a lightweight **Express/Node.js backend** that runs high-performance Kubernetes API queries.
 
 ---
 
-## Persona Consoles Alignment
+## ⚙️ Prerequisite: Agent Sandbox
 
-The dashboard console is structurally divided to support three primary enterprise personas:
-1. **Platform Architects:** Optimize min/max warm pool replicas, audit resource constraints (CPU/Memory limits), and balance cluster utilization profiles against spend overhead.
-2. **Security Engineers & SREs:** Hot-inject emergency dynamic egress bans via the Outbound Policy Interceptor, monitor trace spans through OpenTelemetry sidecars, and evaluate filesystem diff tracks.
-3. **AI Software Engineers:** Browse environment catalog templates, trace execution runtime logs, and copy programmatic initialization templates.
+This UX console serves as a visual client and monitor. It requires the **Agent Sandbox Operator** to be running inside your GKE cluster:
+* **Core Sandbox Operator:** The operator manages the lifecycle of sandboxes and warm pools using custom controllers, gVisor container runtime sandboxing, and in-cluster networking filters.
+* For more information on the core operator, SDKs, and CRD specifications, please refer to the main repository: [github.com/ai-on-gke/agent-sandbox](https://github.com/ai-on-gke/agent-sandbox).
 
 ---
 
-## Getting Started
+## 💻 Getting Started (Local Development)
 
-### Local Development Environment
+### 1. Install Node Dependencies
+Ensure you have Node.js installed, then run:
+```bash
+npm install
+```
 
-1. **Install Node Dependencies**:
+### 2. Launch Dev Server
+```bash
+npm run dev
+```
+This runs the frontend Vite development server (`http://localhost:5173`) and the backend Express proxy server concurrently.
+
+---
+
+## ☸️ GKE Kubernetes Deployment Guide
+
+This guide explains how to deploy the Agent Sandbox UX console dashboard directly to your GKE cluster as a standalone Service and Deployment.
+
+### 🔍 Overview
+To fetch live telemetry, the dashboard runs `kubectl` commands against the cluster API. To make this work seamlessly in-cluster:
+- We installed `kubectl` in the Serve stage of the [Dockerfile](Dockerfile).
+- We added an [entrypoint.sh](entrypoint.sh) script that dynamically configures a local kubeconfig context (`in-cluster`) using the pod's service account token, allowing `kubectl` queries to succeed out-of-the-box.
+- The UI runs under a dedicated, read-only `agent-sandbox-ux` ServiceAccount to enforce the Principle of Least Privilege.
+
+### 🛠 Prerequisites
+Make sure you have:
+1. Active credentials to the GCP project and GKE cluster:
    ```bash
-   npm install
+   gcloud container clusters get-credentials my-gke-cluster --zone us-central1-a --project my-gcp-project-id
+   ```
+2. Docker installed and authenticated to Google Artifact Registry:
+   ```bash
+   gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
    ```
 
-2. **Launch Unified Dev Server**:
+### 📦 Deployment Instructions
+This deploys the Agent Sandbox UX as a separate deployment and service in the `agent-sandbox-system` namespace. It runs independently from the controller, has its own lifecycle, and uses the restricted `agent-sandbox-ux` ServiceAccount.
+
+Apply the deployment manifest:
+```bash
+kubectl apply -f deploy/kubernetes-deployment.yaml
+```
+
+### ⚡ Deployment Automation Script
+We provide a script [deploy-k8s.sh](deploy/deploy-k8s.sh) that automates building, pushing, and deploying the application.
+
+#### Default ClusterIP Deployment (Internal only)
+```bash
+./deploy/deploy-k8s.sh \
+  --cluster my-gke-cluster \
+  --zone us-central1-a \
+  --project my-gcp-project-id \
+  --registry us-central1-docker.pkg.dev/my-gcp-project-id/my-sandbox-repo
+```
+
+#### LoadBalancer Deployment (Exposes a public external IP)
+To access the UI directly without port-forwarding, run with `--service-type LoadBalancer`:
+```bash
+./deploy/deploy-k8s.sh \
+  --cluster my-gke-cluster \
+  --zone us-central1-a \
+  --project my-gcp-project-id \
+  --registry us-central1-docker.pkg.dev/my-gcp-project-id/my-sandbox-repo \
+  --service-type LoadBalancer
+```
+
+### 🔒 Securing with Identity-Aware Proxy (IAP)
+To secure the console for enterprise production, you can enable Google Cloud Identity-Aware Proxy (IAP) to gate access to authorized users in your GCP organization.
+
+#### 1. Prerequisites
+1. **OAuth Consent Screen**: Set up an OAuth consent screen in your Google Cloud Console.
+2. **OAuth Credentials**: Create an OAuth client ID of application type **Web application**. Add the following redirect URI to the client:
+   `https://iap.googleapis.com/v1/oauth/clientIds/YOUR_CLIENT_ID:handleRedirect`
+3. **Create Kubernetes Secret**: Create a Kubernetes secret containing your OAuth client ID and secret in the target namespace:
    ```bash
-   npm run dev
+   kubectl create secret generic iap-oauth-client-secret \
+     --namespace=agent-sandbox-system \
+     --from-literal=client_id=YOUR_CLIENT_ID \
+     --from-literal=client_secret=YOUR_CLIENT_SECRET
    ```
-   * This launches the front-end Vite environment (`http://localhost:5173`) and back-end API proxy server concurrently.
+4. **SSL Certificate**: Make sure you have a pre-shared Google Cloud SSL Certificate name (or use a GKE-managed certificate).
 
----
+#### 2. Deploying with IAP
+Pass the `--iap` flag along with your custom `--domain` and `--ssl-cert` arguments:
+```bash
+./deploy/deploy-k8s.sh \
+  --cluster my-gke-cluster \
+  --zone us-central1-a \
+  --project my-gcp-project-id \
+  --iap \
+  --domain console.example.com \
+  --ssl-cert my-pre-shared-ssl-cert
+```
+This will automatically:
+- Configure and apply the GKE `BackendConfig` and `Ingress` resources.
+- Annotate the Service to route all external HTTPS traffic through the Identity-Aware Proxy.
 
-## Technical Specifications & Schemas
+### ⚙️ Environment Variables Configuration
+Both the deployment script and GKE manifests read configuration options from environment variables. You can export these variables in your shell before running the script:
 
-### 1. SandboxTemplate Custom Resource Definition (CRD)
-Define isolation runtime environments, warmpool dimensions, and approved domain lists:
+| Environment Variable | Description | Default / Fallback |
+| --- | --- | --- |
+| `PROJECT_ID` | Google Cloud Project ID | Automatically detected from active `gcloud` config |
+| `CLUSTER_NAME` | GKE Cluster Name | **Required** (must be set or passed as flag) |
+| `ZONE` | GKE Cluster Zone (e.g. `us-central1-a`) | Automatically detected from active `gcloud` config |
+| `REGISTRY` | Google Artifact Registry repository path | `us-central1-docker.pkg.dev/$PROJECT_ID/my-sandbox-repo` |
+| `DEFAULT_BUCKETS` | GCS bucket for memory/state snapshots | `my-sandbox-snapshots-bucket` |
+| `SITE_NAME` | Title header displayed in the dashboard | `Agent Sandbox Console` |
+| `SERVICE_TYPE` | GKE Service type: `ClusterIP` or `LoadBalancer` | `ClusterIP` |
 
-```yaml
-apiVersion: sandbox.gke.io/v1alpha1
-kind: SandboxTemplate
-metadata:
-  name: python-agent-runner
-  namespace: agent-runtime-prod
-spec:
-  runtimeClass: runsc
-  warmPool:
-    minReplicas: 20
-    maxReplicas: 100
-  limitEgress:
-    allowlist:
-      - api.openai.com
-      - pypi.org
-      - api.github.com
+If you export these variables, you can run the deployment script without passing any command-line options:
+```bash
+export CLUSTER_NAME="my-gke-cluster"
+# Optionally override other settings:
+export DEFAULT_BUCKETS="my-custom-snapshots-bucket"
+
+./deploy/deploy-k8s.sh
 ```
 
-### 2. PodSnapshotStorageConfig Definition
-Bind snapshot capture footprints to persistent cloud storage buckets:
+### 🌐 Accessing the Dashboard
+Depending on your deployment configuration, you can access the dashboard in the following ways:
 
-```yaml
-apiVersion: snapshot.gke.io/v1alpha1
-kind: PodSnapshotStorageConfig
-metadata:
-  name: pssc-prod-backup-config
-spec:
-  storageProvider: GCS
-  bucketURI: gs://agent-sandbox-runtime-snapshots
-  encryption: GoogleManaged
+#### 1. Port Forwarding (Default ClusterIP)
+If you deployed using the default `ClusterIP` service type, use `kubectl` to port-forward to your localhost:
+```bash
+kubectl port-forward svc/agent-sandbox-ux 8080:80 -n agent-sandbox-system
 ```
+Then, navigate to [http://localhost:8080](http://localhost:8080) in your web browser.
 
----
-
-## Programmatic Client Invocation (Python SDK)
-
-AI developers can programmatically claim sandboxes or restore persistent golden checkpoints inside their autonomous scripts using the following client initialization syntax:
-
-```python
-import google.gke.sandbox as sdk
-
-# 1. Connect to GKE Sandbox Operator API gateway
-client = sdk.SandboxClient(project_id="prod-data-pipelines", cluster="gke-us-central-c1")
-
-# 2. Claim a pre-warmed user-space runtime instance instantly
-sandbox = client.claim(template="python-agent-runner", warm_timeout=1.5)
-
-# 3. Safely execute untrusted code block with strict memory limits
-response = sandbox.execute("agent_reasoning_script.py", memory_limit="1.1GiB")
-
-print(f"Execution finished completely. Containment status: {response.status_code}")
+#### 2. External IP (LoadBalancer)
+If you deployed with `--service-type LoadBalancer`, retrieve the external IP allocated by Google Cloud:
+```bash
+kubectl get service agent-sandbox-ux -n agent-sandbox-system
 ```
+Look for the `EXTERNAL-IP` field and navigate to `http://<EXTERNAL-IP>` in your web browser.
+
+#### 3. HTTPS Custom Domain (IAP Ingress)
+If you enabled Identity-Aware Proxy (`--iap`), access the console using your configured custom domain (e.g. `https://console.example.com`). All requests will be intercepted by Google's OAuth consent gate to verify the user's identity before accessing the dashboard.
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-We welcome open-source contributions to enhance warm pool scheduling queues, security diff layers, and SDK definitions! Please review our development guides in `CONTRIBUTING.md`.
+We welcome open-source contributions to enhance warm pool scheduling queues, telemetry charts, and dashboard views! Please review our development guides in `CONTRIBUTING.md`.
 
 ---
 
-## License
+## 📄 License
 
 Distributed under the Apache License 2.0. See `LICENSE` for details.
-
-
-Quick Tips for Tech Web App Colors:
-The 60-30-10 Rule: Use your dominant background/neutral color for 60% of the app, your secondary/structural color for 30%, and save your vibrant accent color for the remaining 10% (buttons, alerts, active states).
-
-Accessibility is King: Always ensure your primary text color has at least a 4.5:1 contrast ratio against its background (WCAG AA standard).
-
