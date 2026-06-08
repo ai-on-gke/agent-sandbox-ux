@@ -170,6 +170,12 @@ Look for the `EXTERNAL-IP` field and navigate to `http://<EXTERNAL-IP>` in your 
 #### 3. HTTPS Custom Domain (IAP Ingress)
 If you enabled Identity-Aware Proxy (`--iap`), access the console using your configured custom domain (e.g. `https://console.example.com`). All requests will be intercepted by Google's OAuth consent gate to verify the user's identity before accessing the dashboard.
 
+## 🧪 Testing
+
+We maintain a robust suite of component unit tests and End-to-End (E2E) browser tests to guarantee visual and functional stability.
+
+For instructions on how to install test browser binaries and execute unit/E2E test commands, please check the [Agent Sandbox UX Testing Guide](tests/README.md).
+
 ---
 
 ## 🤝 Contributing
