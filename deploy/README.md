@@ -54,13 +54,22 @@ We provide a script [deploy-k8s.sh](deploy-k8s.sh) that automates building, push
 
 ### Default ClusterIP Deployment (Internal only)
 ```bash
-./deploy/deploy-k8s.sh --cluster my-gke-cluster --zone us-central1-a --project my-gcp-project-id
+./deploy/deploy-k8s.sh \
+  --cluster my-gke-cluster \
+  --zone us-central1-a \
+  --project my-gcp-project-id \
+  --registry us-central1-docker.pkg.dev/my-gcp-project-id/my-sandbox-repo
 ```
 
 ### LoadBalancer Deployment (Exposes a public external IP)
 To access the UI directly without port-forwarding, run with `--service-type LoadBalancer`:
 ```bash
-./deploy/deploy-k8s.sh --cluster my-gke-cluster --zone us-central1-a --project my-gcp-project-id --service-type LoadBalancer
+./deploy/deploy-k8s.sh \
+  --cluster my-gke-cluster \
+  --zone us-central1-a \
+  --project my-gcp-project-id \
+  --registry us-central1-docker.pkg.dev/my-gcp-project-id/my-sandbox-repo \
+  --service-type LoadBalancer
 ```
 
 ---

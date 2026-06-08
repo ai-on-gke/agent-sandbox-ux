@@ -25,6 +25,7 @@ NAMESPACE="${NAMESPACE:-agent-sandbox-system}"
 DEFAULT_BUCKETS="${DEFAULT_BUCKETS:-my-sandbox-snapshots-bucket}"
 SITE_NAME="${SITE_NAME:-Agent Sandbox Console}"
 SERVICE_TYPE="${SERVICE_TYPE:-ClusterIP}"
+REGISTRY="${REGISTRY:-}"
 
 # IAP Configurations
 ENABLE_IAP="false"
@@ -37,6 +38,7 @@ usage() {
   echo "  -p, --project <ID>      Google Cloud Project ID (default: ${PROJECT_ID:-None})"
   echo "  -c, --cluster <NAME>    GKE Cluster Name (default: ${CLUSTER_NAME:-None})"
   echo "  -z, --zone <ZONE>       GKE Cluster Zone (default: ${ZONE:-None})"
+  echo "  -r, --registry <PATH>   Docker Registry path (default: us-central1-docker.pkg.dev/\$PROJECT_ID/my-sandbox-repo)"
   echo "  --service-type <TYPE>   Kubernetes Service type: ClusterIP or LoadBalancer (default: ClusterIP)"
   echo "  --iap                   Enable GKE Identity-Aware Proxy (IAP)"
   echo "  --domain <HOST>         Custom domain name for HTTPS Ingress (required for --iap)"
@@ -51,6 +53,7 @@ while [[ "$#" -gt 0 ]]; do
     -p|--project) PROJECT_ID="$2"; shift ;;
     -c|--cluster) CLUSTER_NAME="$2"; shift ;;
     -z|--zone) ZONE="$2"; shift ;;
+    -r|--registry) REGISTRY="$2"; shift ;;
     --service-type) SERVICE_TYPE="$2"; shift ;;
     --iap) ENABLE_IAP="true" ;;
     --domain) DOMAIN_NAME="$2"; shift ;;
