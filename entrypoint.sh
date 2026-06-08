@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -eu
 
 # If running inside a Kubernetes Pod, configure a local kubeconfig context
 if [ -f /var/run/secrets/kubernetes.io/serviceaccount/token ]; then

@@ -14,10 +14,11 @@ FROM node:25-alpine
 
 WORKDIR /app
 
-# Install curl and download kubectl matching container architecture
+# Install curl and download a specific stable kubectl version matching container architecture
+ARG KUBECTL_VERSION=v1.30.2
 RUN apk add --no-cache curl \
     && ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/') \
-    && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" \
+    && curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" \
     && chmod +x kubectl \
     && mv kubectl /usr/local/bin/
 

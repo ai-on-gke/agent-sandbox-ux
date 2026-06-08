@@ -15,7 +15,7 @@ spec:
       labels:
         app: agent-sandbox-ux
     spec:
-      serviceAccountName: agent-sandbox-controller
+      serviceAccountName: agent-sandbox-ux
       containers:
       - name: agent-sandbox-ux
         image: {{IMAGE}}
@@ -58,3 +58,31 @@ spec:
     name: http
   selector:
     app: agent-sandbox-ux
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: agent-sandbox-ux
+  namespace: agent-sandbox-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: agent-sandbox-ux-reader
+rules:
+- apiGroups: ["extensions.agents.x-k8s.io"]
+  resources: ["sandboxes", "sandboxtemplates", "sandboxwarmpools"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: agent-sandbox-ux-reader-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: agent-sandbox-ux-reader
+subjects:
+- kind: ServiceAccount
+  name: agent-sandbox-ux
+  namespace: agent-sandbox-system
