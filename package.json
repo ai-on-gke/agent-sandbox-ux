@@ -18,7 +18,7 @@
     "zipline": "rm -f zipline-upload.zip && npm run build && zip -r zipline-upload.zip dist/*"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.17",
+    "@tailwindcss/vite": "^4.3.1",
     "clsx": "^2.1.1",
     "compression": "^1.7.4",
     "express": "^4.22.2",
@@ -38,7 +38,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
+    "@vitejs/plugin-react": "^5.2.0",
     "autoprefixer": "^10.4.22",
     "concurrently": "^10.0.3",
     "eslint": "^9.39.1",
@@ -48,7 +48,7 @@
     "jsdom": "^29.1.1",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.1.17",
-    "vite": "^7.3.5",
+    "vite": "^8.0.16",
     "vitest": "^4.1.8"
   }
 }
